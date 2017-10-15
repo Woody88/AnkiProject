@@ -10,6 +10,7 @@ import Test.Hspec.Wai.JSON
 main :: IO ()
 main = hspec spec
 
+-- When i feel more comfortable with haskell I will proceed with testing.
 spec :: Spec
 spec = with (return app) $ do
     describe "GET /users" $ do

@@ -21,16 +21,14 @@ type API = UserServer
 
 startApp :: IO ()
 startApp = do
-    accounts <- putStrLn "Initializing Accounts..." >> initializeAccountsDB
+    accounts <- putStrLn "Initializing Accounts..." >> initializeAccountsDB -- Set Memory DB for Accounts, later on will create a config file.
     putStrLn "Server Running..." >> (run 3000 $ logStdoutDev $ app accounts)
-    -- withStdoutLogger $ \aplogger -> do
-    --     let settings = setPort 3000 $ setLogger aplogger defaultSettings
-    --     runSettings settings app
 
 app :: AccountDB -> Application
 app accDB = appCors $ (serve api $ server accDB)
 
 
+-- need to allow cors communication with elm 
 appCors :: Middleware
 appCors = cors $ const (Just corsResourcePolicy)
 
