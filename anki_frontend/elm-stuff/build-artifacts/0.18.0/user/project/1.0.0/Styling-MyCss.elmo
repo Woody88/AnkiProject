@@ -1,0 +1,938 @@
+var _user$project$Styling_MyCss$primaryAccentColor = _rtfeldman$elm_css$Css$hex('ccffaa');
+var _user$project$Styling_MyCss$inputControl = function (cl) {
+	return {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$padding(
+			_rtfeldman$elm_css$Css$px(15)),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$width(
+				_rtfeldman$elm_css$Css$pct(20)),
+			_1: {
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$backgroundColor(cl),
+				_1: {
+					ctor: '::',
+					_0: A5(
+						_rtfeldman$elm_css$Css$boxShadow5,
+						_rtfeldman$elm_css$Css$zero,
+						_rtfeldman$elm_css$Css$px(6),
+						_rtfeldman$elm_css$Css$px(10),
+						_rtfeldman$elm_css$Css$zero,
+						A4(_rtfeldman$elm_css$Css$rgba, 0, 0, 0, 0.1)),
+					_1: {
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$outline(_rtfeldman$elm_css$Css$zero),
+						_1: {
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$fontSize(
+								_rtfeldman$elm_css$Css$em(1)),
+							_1: {
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$justifyContent(_rtfeldman$elm_css$Css$center),
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$alignItems(_rtfeldman$elm_css$Css$center),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$margin(
+											_rtfeldman$elm_css$Css$em(1)),
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$children(
+												{
+													ctor: '::',
+													_0: _rtfeldman$elm_css$Css_Elements$input(
+														{
+															ctor: '::',
+															_0: _rtfeldman$elm_css$Css$border(_rtfeldman$elm_css$Css$zero),
+															_1: {
+																ctor: '::',
+																_0: _rtfeldman$elm_css$Css$fontSize(_rtfeldman$elm_css$Css$medium),
+																_1: {
+																	ctor: '::',
+																	_0: _rtfeldman$elm_css$Css$textTransform(_rtfeldman$elm_css$Css$uppercase),
+																	_1: {
+																		ctor: '::',
+																		_0: _rtfeldman$elm_css$Css$outline(_rtfeldman$elm_css$Css$zero),
+																		_1: {
+																			ctor: '::',
+																			_0: _rtfeldman$elm_css$Css$fontFamily(_rtfeldman$elm_css$Css$inherit),
+																			_1: {ctor: '[]'}
+																		}
+																	}
+																}
+															}
+														}),
+													_1: {ctor: '[]'}
+												}),
+											_1: {ctor: '[]'}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	};
+};
+var _user$project$Styling_MyCss$submitControl = A2(
+	_elm_lang$core$Basics_ops['++'],
+	_user$project$Styling_MyCss$inputControl(
+		_rtfeldman$elm_css$Css$hex('7f8ff4')),
+	{
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$cursor(_rtfeldman$elm_css$Css$pointer),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$textTransform(_rtfeldman$elm_css$Css$uppercase),
+			_1: {ctor: '[]'}
+		}
+	});
+var _user$project$Styling_MyCss$formControl = {
+	ctor: '::',
+	_0: _rtfeldman$elm_css$Css$displayFlex,
+	_1: {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$width(_rtfeldman$elm_css$Css$inherit),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$justifyContent(_rtfeldman$elm_css$Css$center),
+			_1: {
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$flexDirection(_rtfeldman$elm_css$Css$column),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$alignItems(_rtfeldman$elm_css$Css$center),
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	}
+};
+var _user$project$Styling_MyCss$menuContainerCol = {
+	ctor: '::',
+	_0: _rtfeldman$elm_css$Css$displayFlex,
+	_1: {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$flexDirection(_rtfeldman$elm_css$Css$column),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$padding(
+				_rtfeldman$elm_css$Css$px(5)),
+			_1: {
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$borderRadius(
+					_rtfeldman$elm_css$Css$px(8)),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$children(
+						{
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$everything(
+								{
+									ctor: '::',
+									_0: A2(
+										_rtfeldman$elm_css$Css$flex2,
+										_rtfeldman$elm_css$Css$int(1),
+										_rtfeldman$elm_css$Css$int(1)),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$margin(
+											_rtfeldman$elm_css$Css$px(5)),
+										_1: {ctor: '[]'}
+									}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	}
+};
+var _user$project$Styling_MyCss$rowContainer = {
+	ctor: '::',
+	_0: _rtfeldman$elm_css$Css$displayFlex,
+	_1: {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$flexDirection(_rtfeldman$elm_css$Css$row),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$children(
+				{
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$everything(
+						{
+							ctor: '::',
+							_0: A2(
+								_rtfeldman$elm_css$Css$flex2,
+								_rtfeldman$elm_css$Css$int(1),
+								_rtfeldman$elm_css$Css$int(1)),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		}
+	}
+};
+var _user$project$Styling_MyCss$menuContainer = {
+	ctor: '::',
+	_0: _rtfeldman$elm_css$Css$displayFlex,
+	_1: {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$flexDirection(_rtfeldman$elm_css$Css$row),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$padding(
+				_rtfeldman$elm_css$Css$px(5)),
+			_1: {
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$borderRadius(
+					_rtfeldman$elm_css$Css$px(4)),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$children(
+						{
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$everything(
+								{
+									ctor: '::',
+									_0: A2(
+										_rtfeldman$elm_css$Css$flex2,
+										_rtfeldman$elm_css$Css$int(1),
+										_rtfeldman$elm_css$Css$int(1)),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$margin(
+											_rtfeldman$elm_css$Css$px(5)),
+										_1: {ctor: '[]'}
+									}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	}
+};
+var _user$project$Styling_MyCss$arrowRight = {
+	ctor: '::',
+	_0: _rtfeldman$elm_css$Css$height(
+		_rtfeldman$elm_css$Css$em(4)),
+	_1: {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$width(
+			_rtfeldman$elm_css$Css$em(4)),
+		_1: {
+			ctor: '::',
+			_0: A3(
+				_rtfeldman$elm_css$Css$border3,
+				_rtfeldman$elm_css$Css$px(1),
+				_rtfeldman$elm_css$Css$solid,
+				_rtfeldman$elm_css$Css$hex('000000')),
+			_1: {
+				ctor: '::',
+				_0: A4(
+					_rtfeldman$elm_css$Css$borderWidth4,
+					_rtfeldman$elm_css$Css$px(1),
+					_rtfeldman$elm_css$Css$px(1),
+					_rtfeldman$elm_css$Css$px(0),
+					_rtfeldman$elm_css$Css$px(0)),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$transform(
+						_rtfeldman$elm_css$Css$rotate(
+							_rtfeldman$elm_css$Css$deg(45))),
+					_1: {
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$cursor(_rtfeldman$elm_css$Css$pointer),
+						_1: {
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$after(
+								{
+									ctor: '::',
+									_0: A2(_rtfeldman$elm_css$Css$property, 'content', '\'\''),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$height(
+											_rtfeldman$elm_css$Css$em(4)),
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$width(
+												_rtfeldman$elm_css$Css$em(4)),
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css$display(_rtfeldman$elm_css$Css$block),
+												_1: {
+													ctor: '::',
+													_0: A3(
+														_rtfeldman$elm_css$Css$border3,
+														_rtfeldman$elm_css$Css$px(1),
+														_rtfeldman$elm_css$Css$solid,
+														_rtfeldman$elm_css$Css$hex('000000')),
+													_1: {
+														ctor: '::',
+														_0: A4(
+															_rtfeldman$elm_css$Css$borderWidth4,
+															_rtfeldman$elm_css$Css$px(1),
+															_rtfeldman$elm_css$Css$px(1),
+															_rtfeldman$elm_css$Css$px(0),
+															_rtfeldman$elm_css$Css$px(0)),
+														_1: {
+															ctor: '::',
+															_0: _rtfeldman$elm_css$Css$transform(
+																A2(
+																	_rtfeldman$elm_css$Css$translate2,
+																	_rtfeldman$elm_css$Css$px(3),
+																	_rtfeldman$elm_css$Css$px(-5))),
+															_1: {ctor: '[]'}
+														}
+													}
+												}
+											}
+										}
+									}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		}
+	}
+};
+var _user$project$Styling_MyCss$arrowLeft = {
+	ctor: '::',
+	_0: _rtfeldman$elm_css$Css$height(
+		_rtfeldman$elm_css$Css$em(4)),
+	_1: {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$width(
+			_rtfeldman$elm_css$Css$em(4)),
+		_1: {
+			ctor: '::',
+			_0: A3(
+				_rtfeldman$elm_css$Css$border3,
+				_rtfeldman$elm_css$Css$px(1),
+				_rtfeldman$elm_css$Css$solid,
+				_rtfeldman$elm_css$Css$hex('000000')),
+			_1: {
+				ctor: '::',
+				_0: A4(
+					_rtfeldman$elm_css$Css$borderWidth4,
+					_rtfeldman$elm_css$Css$px(1),
+					_rtfeldman$elm_css$Css$px(1),
+					_rtfeldman$elm_css$Css$px(0),
+					_rtfeldman$elm_css$Css$px(0)),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$transform(
+						_rtfeldman$elm_css$Css$rotate(
+							_rtfeldman$elm_css$Css$deg(-135))),
+					_1: {
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$cursor(_rtfeldman$elm_css$Css$pointer),
+						_1: {
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$after(
+								{
+									ctor: '::',
+									_0: A2(_rtfeldman$elm_css$Css$property, 'content', '\'\''),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$height(
+											_rtfeldman$elm_css$Css$em(4)),
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$width(
+												_rtfeldman$elm_css$Css$em(4)),
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css$display(_rtfeldman$elm_css$Css$block),
+												_1: {
+													ctor: '::',
+													_0: A3(
+														_rtfeldman$elm_css$Css$border3,
+														_rtfeldman$elm_css$Css$px(1),
+														_rtfeldman$elm_css$Css$solid,
+														_rtfeldman$elm_css$Css$hex('000000')),
+													_1: {
+														ctor: '::',
+														_0: A4(
+															_rtfeldman$elm_css$Css$borderWidth4,
+															_rtfeldman$elm_css$Css$px(1),
+															_rtfeldman$elm_css$Css$px(1),
+															_rtfeldman$elm_css$Css$px(0),
+															_rtfeldman$elm_css$Css$px(0)),
+														_1: {
+															ctor: '::',
+															_0: _rtfeldman$elm_css$Css$transform(
+																A2(
+																	_rtfeldman$elm_css$Css$translate2,
+																	_rtfeldman$elm_css$Css$px(3),
+																	_rtfeldman$elm_css$Css$px(-5))),
+															_1: {ctor: '[]'}
+														}
+													}
+												}
+											}
+										}
+									}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		}
+	}
+};
+var _user$project$Styling_MyCss$arrowContainer = {
+	ctor: '::',
+	_0: _rtfeldman$elm_css$Css$height(
+		_rtfeldman$elm_css$Css$px(200)),
+	_1: {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$width(
+			_rtfeldman$elm_css$Css$px(200)),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$displayFlex,
+			_1: {
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$justifyContent(_rtfeldman$elm_css$Css$center),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$alignItems(_rtfeldman$elm_css$Css$center),
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	}
+};
+var _user$project$Styling_MyCss$whiteStyling = function (attrs) {
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		{
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$displayFlex,
+			_1: {
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$textAlign(_rtfeldman$elm_css$Css$center),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$justifyContent(_rtfeldman$elm_css$Css$center),
+					_1: {
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$alignItems(_rtfeldman$elm_css$Css$center),
+						_1: {
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$backgroundColor(
+								_rtfeldman$elm_css$Css$hex('FFFFFF')),
+							_1: {
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$color(
+									_rtfeldman$elm_css$Css$hex('000000')),
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$borderWidth(
+										_rtfeldman$elm_css$Css$px(4)),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$borderStyle(_rtfeldman$elm_css$Css$solid),
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$borderColor(
+												_rtfeldman$elm_css$Css$hex('FFFFFF')),
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css$opacity(
+													_rtfeldman$elm_css$Css$int(1)),
+												_1: {
+													ctor: '::',
+													_0: A5(
+														_rtfeldman$elm_css$Css$boxShadow5,
+														_rtfeldman$elm_css$Css$px(0),
+														_rtfeldman$elm_css$Css$px(1),
+														_rtfeldman$elm_css$Css$px(2),
+														_rtfeldman$elm_css$Css$px(0),
+														A4(_rtfeldman$elm_css$Css$rgba, 0, 0, 0, 0.1)),
+													_1: {ctor: '[]'}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		attrs);
+};
+var _user$project$Styling_MyCss$flashCardBtn = function () {
+	var attributes = {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$borderRadius(
+			_rtfeldman$elm_css$Css$px(4)),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$fontSize(
+				_rtfeldman$elm_css$Css$em(1)),
+			_1: {
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$cursor(_rtfeldman$elm_css$Css$pointer),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$children(
+						{
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css_Elements$a(
+								{
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$textDecoration(_rtfeldman$elm_css$Css$none),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$displayFlex,
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$justifyContent(_rtfeldman$elm_css$Css$center),
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css$alignItems(_rtfeldman$elm_css$Css$center),
+												_1: {
+													ctor: '::',
+													_0: _rtfeldman$elm_css$Css$width(
+														_rtfeldman$elm_css$Css$pct(100)),
+													_1: {
+														ctor: '::',
+														_0: _rtfeldman$elm_css$Css$height(
+															_rtfeldman$elm_css$Css$pct(100)),
+														_1: {ctor: '[]'}
+													}
+												}
+											}
+										}
+									}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	};
+	return _user$project$Styling_MyCss$whiteStyling(attributes);
+}();
+var _user$project$Styling_MyCss$timerContainer = function () {
+	var attributes = {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$borderRadius(
+			_rtfeldman$elm_css$Css$px(4)),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$height(
+				_rtfeldman$elm_css$Css$em(2)),
+			_1: {
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$fontSize(
+					_rtfeldman$elm_css$Css$em(1)),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$children(
+						{
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css_Elements$p(
+								{
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$textDecoration(_rtfeldman$elm_css$Css$none),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$displayFlex,
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$justifyContent(_rtfeldman$elm_css$Css$center),
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css$alignItems(_rtfeldman$elm_css$Css$center),
+												_1: {
+													ctor: '::',
+													_0: _rtfeldman$elm_css$Css$width(
+														_rtfeldman$elm_css$Css$pct(100)),
+													_1: {
+														ctor: '::',
+														_0: _rtfeldman$elm_css$Css$height(
+															_rtfeldman$elm_css$Css$pct(100)),
+														_1: {ctor: '[]'}
+													}
+												}
+											}
+										}
+									}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	};
+	return _user$project$Styling_MyCss$whiteStyling(attributes);
+}();
+var _user$project$Styling_MyCss$flashCardContainer = function () {
+	var attributes = {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$width(
+			_rtfeldman$elm_css$Css$pc(30)),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$height(
+				_rtfeldman$elm_css$Css$pc(10)),
+			_1: {
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$padding(
+					_rtfeldman$elm_css$Css$pc(5)),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$borderRadius(
+						_rtfeldman$elm_css$Css$px(4)),
+					_1: {
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$fontSize(
+							_rtfeldman$elm_css$Css$em(3)),
+						_1: {
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$children(
+								{
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css_Elements$p(
+										{
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$textDecoration(_rtfeldman$elm_css$Css$none),
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css$displayFlex,
+												_1: {
+													ctor: '::',
+													_0: _rtfeldman$elm_css$Css$justifyContent(_rtfeldman$elm_css$Css$center),
+													_1: {
+														ctor: '::',
+														_0: _rtfeldman$elm_css$Css$alignItems(_rtfeldman$elm_css$Css$center),
+														_1: {
+															ctor: '::',
+															_0: _rtfeldman$elm_css$Css$width(
+																_rtfeldman$elm_css$Css$pct(100)),
+															_1: {
+																ctor: '::',
+																_0: _rtfeldman$elm_css$Css$height(
+																	_rtfeldman$elm_css$Css$pct(100)),
+																_1: {ctor: '[]'}
+															}
+														}
+													}
+												}
+											}
+										}),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		}
+	};
+	return _user$project$Styling_MyCss$whiteStyling(attributes);
+}();
+var _user$project$Styling_MyCss$menuOption = function () {
+	var attributes = {
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css$width(
+			_rtfeldman$elm_css$Css$px(100)),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css$height(
+				_rtfeldman$elm_css$Css$px(100)),
+			_1: {
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$padding(
+					_rtfeldman$elm_css$Css$px(25)),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$children(
+						{
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css_Elements$a(
+								{
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$textDecoration(_rtfeldman$elm_css$Css$none),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$displayFlex,
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$justifyContent(_rtfeldman$elm_css$Css$center),
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css$alignItems(_rtfeldman$elm_css$Css$center),
+												_1: {
+													ctor: '::',
+													_0: _rtfeldman$elm_css$Css$width(
+														_rtfeldman$elm_css$Css$pct(100)),
+													_1: {
+														ctor: '::',
+														_0: _rtfeldman$elm_css$Css$height(
+															_rtfeldman$elm_css$Css$pct(100)),
+														_1: {ctor: '[]'}
+													}
+												}
+											}
+										}
+									}
+								}),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		}
+	};
+	return _user$project$Styling_MyCss$whiteStyling(attributes);
+}();
+var _user$project$Styling_MyCss$ArrowRight = {ctor: 'ArrowRight'};
+var _user$project$Styling_MyCss$ArrowLeft = {ctor: 'ArrowLeft'};
+var _user$project$Styling_MyCss$ArrowContainer = {ctor: 'ArrowContainer'};
+var _user$project$Styling_MyCss$RowContainer = {ctor: 'RowContainer'};
+var _user$project$Styling_MyCss$TimerContainer = {ctor: 'TimerContainer'};
+var _user$project$Styling_MyCss$FlashCardBtn = {ctor: 'FlashCardBtn'};
+var _user$project$Styling_MyCss$FlashCardContainer = {ctor: 'FlashCardContainer'};
+var _user$project$Styling_MyCss$MenuContainerCol = {ctor: 'MenuContainerCol'};
+var _user$project$Styling_MyCss$MenuContainer = {ctor: 'MenuContainer'};
+var _user$project$Styling_MyCss$MenuOption = {ctor: 'MenuOption'};
+var _user$project$Styling_MyCss$SubmitControl = {ctor: 'SubmitControl'};
+var _user$project$Styling_MyCss$FormControl = {ctor: 'FormControl'};
+var _user$project$Styling_MyCss$InputControl = {ctor: 'InputControl'};
+var _user$project$Styling_MyCss$NavBar = {ctor: 'NavBar'};
+var _user$project$Styling_MyCss$Page = {ctor: 'Page'};
+var _user$project$Styling_MyCss$css = function (_p0) {
+	return _rtfeldman$elm_css$Css$stylesheet(
+		A2(_rtfeldman$elm_css$Css_Namespace$namespace, 'dreamwriter', _p0));
+}(
+	{
+		ctor: '::',
+		_0: _rtfeldman$elm_css$Css_Elements$body(
+			{
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$displayFlex,
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$backgroundColor(
+						_rtfeldman$elm_css$Css$hex('e9e9e9')),
+					_1: {
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$borderRadius(
+							_rtfeldman$elm_css$Css$pc(50)),
+						_1: {
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$color(
+								_rtfeldman$elm_css$Css$hex('FFFFFF')),
+							_1: {
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$textAlign(_rtfeldman$elm_css$Css$center),
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$justifyContent(_rtfeldman$elm_css$Css$center),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$alignItems(_rtfeldman$elm_css$Css$center),
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$height(
+												_rtfeldman$elm_css$Css$pct(100)),
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css$width(
+													_rtfeldman$elm_css$Css$pct(100)),
+												_1: {
+													ctor: '::',
+													_0: _rtfeldman$elm_css$Css$margin(
+														_rtfeldman$elm_css$Css$px(0)),
+													_1: {
+														ctor: '::',
+														_0: _rtfeldman$elm_css$Css$fontFamilies(
+															{
+																ctor: '::',
+																_0: 'Raleway',
+																_1: {
+																	ctor: '::',
+																	_0: function (_) {
+																		return _.value;
+																	}(_rtfeldman$elm_css$Css$sansSerif),
+																	_1: {ctor: '[]'}
+																}
+															}),
+														_1: {ctor: '[]'}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}),
+		_1: {
+			ctor: '::',
+			_0: _rtfeldman$elm_css$Css_Elements$html(
+				{
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$height(
+						_rtfeldman$elm_css$Css$pct(100)),
+					_1: {
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$width(
+							_rtfeldman$elm_css$Css$pct(100)),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_rtfeldman$elm_css$Css$id,
+					_user$project$Styling_MyCss$Page,
+					{
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$backgroundColor(
+							A3(_rtfeldman$elm_css$Css$rgb, 200, 128, 64)),
+						_1: {
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$color(
+								_rtfeldman$elm_css$Css$hex('CCFFFF')),
+							_1: {
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$width(
+									_rtfeldman$elm_css$Css$pct(100)),
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$height(
+										_rtfeldman$elm_css$Css$pct(100)),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$boxSizing(_rtfeldman$elm_css$Css$borderBox),
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$padding(
+												_rtfeldman$elm_css$Css$px(8)),
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css$margin(_rtfeldman$elm_css$Css$zero),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}
+						}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(_rtfeldman$elm_css$Css$class, _user$project$Styling_MyCss$MenuContainer, _user$project$Styling_MyCss$menuContainer),
+					_1: {
+						ctor: '::',
+						_0: A2(_rtfeldman$elm_css$Css$class, _user$project$Styling_MyCss$MenuContainerCol, _user$project$Styling_MyCss$menuContainerCol),
+						_1: {
+							ctor: '::',
+							_0: A2(_rtfeldman$elm_css$Css$class, _user$project$Styling_MyCss$TimerContainer, _user$project$Styling_MyCss$timerContainer),
+							_1: {
+								ctor: '::',
+								_0: A2(_rtfeldman$elm_css$Css$class, _user$project$Styling_MyCss$FlashCardContainer, _user$project$Styling_MyCss$flashCardContainer),
+								_1: {
+									ctor: '::',
+									_0: A2(_rtfeldman$elm_css$Css$class, _user$project$Styling_MyCss$FlashCardBtn, _user$project$Styling_MyCss$flashCardBtn),
+									_1: {
+										ctor: '::',
+										_0: A2(_rtfeldman$elm_css$Css$class, _user$project$Styling_MyCss$ArrowContainer, _user$project$Styling_MyCss$arrowContainer),
+										_1: {
+											ctor: '::',
+											_0: A2(_rtfeldman$elm_css$Css$class, _user$project$Styling_MyCss$ArrowLeft, _user$project$Styling_MyCss$arrowLeft),
+											_1: {
+												ctor: '::',
+												_0: A2(_rtfeldman$elm_css$Css$class, _user$project$Styling_MyCss$ArrowRight, _user$project$Styling_MyCss$arrowRight),
+												_1: {
+													ctor: '::',
+													_0: A2(_rtfeldman$elm_css$Css$class, _user$project$Styling_MyCss$RowContainer, _user$project$Styling_MyCss$rowContainer),
+													_1: {
+														ctor: '::',
+														_0: A2(_rtfeldman$elm_css$Css$class, _user$project$Styling_MyCss$SubmitControl, _user$project$Styling_MyCss$submitControl),
+														_1: {
+															ctor: '::',
+															_0: A2(_rtfeldman$elm_css$Css$class, _user$project$Styling_MyCss$FormControl, _user$project$Styling_MyCss$formControl),
+															_1: {
+																ctor: '::',
+																_0: A2(
+																	_rtfeldman$elm_css$Css$class,
+																	_user$project$Styling_MyCss$InputControl,
+																	_user$project$Styling_MyCss$inputControl(
+																		_rtfeldman$elm_css$Css$hex('fff'))),
+																_1: {
+																	ctor: '::',
+																	_0: A2(_rtfeldman$elm_css$Css$class, _user$project$Styling_MyCss$MenuOption, _user$project$Styling_MyCss$menuOption),
+																	_1: {
+																		ctor: '::',
+																		_0: A2(
+																			_rtfeldman$elm_css$Css$class,
+																			_user$project$Styling_MyCss$NavBar,
+																			{
+																				ctor: '::',
+																				_0: _rtfeldman$elm_css$Css$margin(_rtfeldman$elm_css$Css$zero),
+																				_1: {
+																					ctor: '::',
+																					_0: _rtfeldman$elm_css$Css$padding(_rtfeldman$elm_css$Css$zero),
+																					_1: {
+																						ctor: '::',
+																						_0: _rtfeldman$elm_css$Css$children(
+																							{
+																								ctor: '::',
+																								_0: _rtfeldman$elm_css$Css_Elements$li(
+																									{
+																										ctor: '::',
+																										_0: _rtfeldman$elm_css$Css$important(
+																											_rtfeldman$elm_css$Css$display(_rtfeldman$elm_css$Css$inlineBlock)),
+																										_1: {
+																											ctor: '::',
+																											_0: _rtfeldman$elm_css$Css$color(_user$project$Styling_MyCss$primaryAccentColor),
+																											_1: {ctor: '[]'}
+																										}
+																									}),
+																								_1: {ctor: '[]'}
+																							}),
+																						_1: {ctor: '[]'}
+																					}
+																				}
+																			}),
+																		_1: {ctor: '[]'}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	});

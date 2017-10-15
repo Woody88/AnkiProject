@@ -1,0 +1,3 @@
+var _user$project$Data_Session$Session = function (a) {
+	return {user: a};
+};

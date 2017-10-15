@@ -1,0 +1,60 @@
+var _user$project$Page_Home$update = F3(
+	function (session, msg, model) {
+		var _p0 = msg;
+		return A2(
+			_elm_lang$core$Platform_Cmd_ops['!'],
+			model,
+			{ctor: '[]'});
+	});
+var _user$project$Page_Home$initialModel = {selected: ''};
+var _user$project$Page_Home$_p1 = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('dreamwriter');
+var _user$project$Page_Home$id = _user$project$Page_Home$_p1.id;
+var _user$project$Page_Home$class = _user$project$Page_Home$_p1.$class;
+var _user$project$Page_Home$classList = _user$project$Page_Home$_p1.classList;
+var _user$project$Page_Home$view = F2(
+	function (session, model) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _user$project$Page_Home$class(
+					{
+						ctor: '::',
+						_0: _user$project$Styling_MyCss$MenuContainer,
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$style(
+						{
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'zoom', _1: '1.6'},
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_user$project$Views_Page$menuOption,
+					'Flash Card',
+					{
+						ctor: '::',
+						_0: _user$project$Route$href(_user$project$Route$FlashCard),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_user$project$Views_Page$menuOption,
+						'Study Place',
+						{ctor: '[]'}),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
+var _user$project$Page_Home$Model = function (a) {
+	return {selected: a};
+};
+var _user$project$Page_Home$NoOp = {ctor: 'NoOp'};

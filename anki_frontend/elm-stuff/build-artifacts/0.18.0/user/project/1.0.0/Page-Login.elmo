@@ -1,0 +1,65 @@
+var _user$project$Page_Login$initialModel = {errors: '', email: '', password: ''};
+var _user$project$Page_Login$_p0 = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('dreamwriter');
+var _user$project$Page_Login$id = _user$project$Page_Login$_p0.id;
+var _user$project$Page_Login$class = _user$project$Page_Login$_p0.$class;
+var _user$project$Page_Login$classList = _user$project$Page_Login$_p0.classList;
+var _user$project$Page_Login$form = A2(
+	_elm_lang$html$Html$form,
+	{
+		ctor: '::',
+		_0: _user$project$Page_Login$class(
+			{
+				ctor: '::',
+				_0: _user$project$Styling_MyCss$FormControl,
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: _user$project$Views_Form$input(
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$placeholder('Email'),
+				_1: {ctor: '[]'}
+			}),
+		_1: {
+			ctor: '::',
+			_0: _user$project$Views_Form$password(
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$placeholder('Password'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_user$project$Views_Form$submit,
+					{ctor: '[]'},
+					'Login'),
+				_1: {ctor: '[]'}
+			}
+		}
+	});
+var _user$project$Page_Login$view = F2(
+	function (session, model) {
+		return _user$project$Page_Login$form;
+	});
+var _user$project$Page_Login$Model = F3(
+	function (a, b, c) {
+		return {errors: a, email: b, password: c};
+	});
+var _user$project$Page_Login$NoOp = {ctor: 'NoOp'};
+var _user$project$Page_Login$No = {ctor: 'No'};
+var _user$project$Page_Login$update = F2(
+	function (msg, model) {
+		var _p1 = msg;
+		return {
+			ctor: '_Tuple2',
+			_0: A2(
+				_elm_lang$core$Platform_Cmd_ops['!'],
+				model,
+				{ctor: '[]'}),
+			_1: _user$project$Page_Login$No
+		};
+	});

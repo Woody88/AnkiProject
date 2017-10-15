@@ -1,0 +1,194 @@
+var _user$project$Views_Page$frame = F4(
+	function (isLoading, user, page, content) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{ctor: '[]'},
+			{ctor: '[]'});
+	});
+var _user$project$Views_Page$_p0 = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('dreamwriter');
+var _user$project$Views_Page$id = _user$project$Views_Page$_p0.id;
+var _user$project$Views_Page$class = _user$project$Views_Page$_p0.$class;
+var _user$project$Views_Page$classList = _user$project$Views_Page$_p0.classList;
+var _user$project$Views_Page$menuOption = F2(
+	function (value, attrs) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _user$project$Views_Page$class(
+					{
+						ctor: '::',
+						_0: _user$project$Styling_MyCss$MenuOption,
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					attrs,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(value),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Views_Page$flashCard = F2(
+	function (card, attrs) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _user$project$Views_Page$class(
+					{
+						ctor: '::',
+						_0: _user$project$Styling_MyCss$FlashCardContainer,
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$p,
+					attrs,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(card.contentEn),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Views_Page$timerField = F2(
+	function (value, attrs) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _user$project$Views_Page$class(
+					{
+						ctor: '::',
+						_0: _user$project$Styling_MyCss$TimerContainer,
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$p,
+					attrs,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(value),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Views_Page$rowContainer = function (html) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _user$project$Views_Page$class(
+				{
+					ctor: '::',
+					_0: _user$project$Styling_MyCss$RowContainer,
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		},
+		html);
+};
+var _user$project$Views_Page$flashCardBtn = F2(
+	function (value, attrs) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _user$project$Views_Page$class(
+					{
+						ctor: '::',
+						_0: _user$project$Styling_MyCss$FlashCardBtn,
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$a,
+					attrs,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(value),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			});
+	});
+var _user$project$Views_Page$arrowRightBtn = A2(
+	_elm_lang$html$Html$div,
+	{
+		ctor: '::',
+		_0: _user$project$Views_Page$class(
+			{
+				ctor: '::',
+				_0: _user$project$Styling_MyCss$ArrowContainer,
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _user$project$Views_Page$class(
+					{
+						ctor: '::',
+						_0: _user$project$Styling_MyCss$ArrowRight,
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			{ctor: '[]'}),
+		_1: {ctor: '[]'}
+	});
+var _user$project$Views_Page$arrowLeftBtn = A2(
+	_elm_lang$html$Html$div,
+	{
+		ctor: '::',
+		_0: _user$project$Views_Page$class(
+			{
+				ctor: '::',
+				_0: _user$project$Styling_MyCss$ArrowContainer,
+				_1: {ctor: '[]'}
+			}),
+		_1: {ctor: '[]'}
+	},
+	{
+		ctor: '::',
+		_0: A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _user$project$Views_Page$class(
+					{
+						ctor: '::',
+						_0: _user$project$Styling_MyCss$ArrowLeft,
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			{ctor: '[]'}),
+		_1: {ctor: '[]'}
+	});
+var _user$project$Views_Page$Login = {ctor: 'Login'};
+var _user$project$Views_Page$Home = {ctor: 'Home'};

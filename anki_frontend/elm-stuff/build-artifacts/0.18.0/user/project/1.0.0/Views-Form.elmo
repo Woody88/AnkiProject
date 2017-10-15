@@ -1,0 +1,89 @@
+var _user$project$Views_Form$_p0 = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('dreamwriter');
+var _user$project$Views_Form$id = _user$project$Views_Form$_p0.id;
+var _user$project$Views_Form$class = _user$project$Views_Form$_p0.$class;
+var _user$project$Views_Form$classList = _user$project$Views_Form$_p0.classList;
+var _user$project$Views_Form$password = function (attrs) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _user$project$Views_Form$class(
+				{
+					ctor: '::',
+					_0: _user$project$Styling_MyCss$InputControl,
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$type_('password'),
+						_1: {ctor: '[]'}
+					},
+					attrs),
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Views_Form$input = function (attrs) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _user$project$Views_Form$class(
+				{
+					ctor: '::',
+					_0: _user$project$Styling_MyCss$InputControl,
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$input,
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$type_('text'),
+						_1: {ctor: '[]'}
+					},
+					attrs),
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$Views_Form$submit = F2(
+	function (attrs, text) {
+		return A2(
+			_elm_lang$html$Html$div,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				{
+					ctor: '::',
+					_0: _user$project$Views_Form$class(
+						{
+							ctor: '::',
+							_0: _user$project$Styling_MyCss$SubmitControl,
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$href('#'),
+						_1: {ctor: '[]'}
+					}
+				},
+				attrs),
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(text),
+				_1: {ctor: '[]'}
+			});
+	});

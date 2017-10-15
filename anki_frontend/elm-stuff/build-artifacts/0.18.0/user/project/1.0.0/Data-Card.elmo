@@ -1,0 +1,5 @@
+var _user$project$Data_Card$new = {contentEn: 'Liquid', contentJp: 'えきたい', contentJpKanji: '液体'};
+var _user$project$Data_Card$Card = F3(
+	function (a, b, c) {
+		return {contentEn: a, contentJp: b, contentJpKanji: c};
+	});

@@ -1,0 +1,110 @@
+var _user$project$Page_FlashCard$update = F3(
+	function (session, msg, model) {
+		var _p0 = msg;
+		return A2(
+			_elm_lang$core$Platform_Cmd_ops['!'],
+			model,
+			{ctor: '[]'});
+	});
+var _user$project$Page_FlashCard$initialModel = {
+	cards: {ctor: '[]'},
+	currentCard: _user$project$Data_Card$new,
+	previousCard: _user$project$Data_Card$new,
+	nextCard: _user$project$Data_Card$new
+};
+var _user$project$Page_FlashCard$_p1 = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('dreamwriter');
+var _user$project$Page_FlashCard$id = _user$project$Page_FlashCard$_p1.id;
+var _user$project$Page_FlashCard$class = _user$project$Page_FlashCard$_p1.$class;
+var _user$project$Page_FlashCard$classList = _user$project$Page_FlashCard$_p1.classList;
+var _user$project$Page_FlashCard$view = F2(
+	function (session, model) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _user$project$Page_FlashCard$class(
+					{
+						ctor: '::',
+						_0: _user$project$Styling_MyCss$MenuContainer,
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _user$project$Views_Page$arrowLeftBtn,
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _user$project$Page_FlashCard$class(
+								{
+									ctor: '::',
+									_0: _user$project$Styling_MyCss$MenuContainerCol,
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: A2(
+								_user$project$Views_Page$flashCard,
+								model.currentCard,
+								{ctor: '[]'}),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_user$project$Views_Page$timerField,
+									'0:30',
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: _user$project$Views_Page$rowContainer(
+										{
+											ctor: '::',
+											_0: A2(
+												_user$project$Views_Page$flashCardBtn,
+												'Option 1',
+												{ctor: '[]'}),
+											_1: {
+												ctor: '::',
+												_0: A2(
+													_user$project$Views_Page$flashCardBtn,
+													'Option 2',
+													{ctor: '[]'}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_user$project$Views_Page$flashCardBtn,
+														'Option 3',
+														{ctor: '[]'}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_user$project$Views_Page$flashCardBtn,
+															'Option 4',
+															{ctor: '[]'}),
+														_1: {ctor: '[]'}
+													}
+												}
+											}
+										}),
+									_1: {ctor: '[]'}
+								}
+							}
+						}),
+					_1: {
+						ctor: '::',
+						_0: _user$project$Views_Page$arrowRightBtn,
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	});
+var _user$project$Page_FlashCard$Model = F4(
+	function (a, b, c, d) {
+		return {cards: a, currentCard: b, previousCard: c, nextCard: d};
+	});
+var _user$project$Page_FlashCard$NoOp = {ctor: 'NoOp'};
