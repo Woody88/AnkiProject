@@ -15,20 +15,22 @@ import Network.Wai.Handler.Warp
 import           Network.Wai.Logger       (withStdoutLogger)
 import Network.Wai.Middleware.RequestLogger (logStdoutDev)
 import Servant
-import Accounts (AccountDB, UserServer, initializeAccountsDB, userServer)
+import DB (DB, initializeDB, getDB)
+import Accounts (UserServer, userServer)
 
 type API = UserServer
 
 startApp :: IO ()
 startApp = do
-    accounts <- putStrLn "Initializing Accounts..." >> initializeAccountsDB -- Set Memory DB for Accounts, later on will create a config file.
-    putStrLn "Server Running..." >> (run 3000 $ logStdoutDev $ app accounts)
+    -- accounts <- putStrLn "Initializing Accounts..." >> initializeAccountsDB -- Set Memory DB for Accounts, later on will create a config file.
+    dbs <- initializeDB
+    putStrLn "Server Running..." >> run 3000 (logStdoutDev $ app dbs)
 
-app :: AccountDB -> Application
+app :: DB -> Application
 app accDB = appCors $ (serve api $ server accDB)
 
 
--- need to allow cors communication with elm 
+-- need to allow cors communication with elm
 appCors :: Middleware
 appCors = cors $ const (Just corsResourcePolicy)
 
@@ -48,5 +50,6 @@ corsResourcePolicy =
 api :: Proxy API
 api = Proxy
 
-server :: AccountDB -> Server API
-server accDB = userServer accDB
+server :: DB -> Server API
+server dbs = userServer accounts
+    where (Just accounts) = getDB "accountDB" dbs
