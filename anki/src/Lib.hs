@@ -15,10 +15,12 @@ import Network.Wai.Handler.Warp
 import           Network.Wai.Logger       (withStdoutLogger)
 import Network.Wai.Middleware.RequestLogger (logStdoutDev)
 import Servant
-import DB (DB, initializeDB, getDB)
+import DB (DB(..), initializeDB, getDB)
 import Accounts (UserServer, userServer)
+import Anki (AnkiServer, ankiServer)
 
 type API = UserServer
+      :<|> AnkiServer
 
 startApp :: IO ()
 startApp = do
@@ -27,7 +29,7 @@ startApp = do
     putStrLn "Server Running..." >> run 3000 (logStdoutDev $ app dbs)
 
 app :: DB -> Application
-app accDB = appCors $ (serve api $ server accDB)
+app accDB = appCors $ serve api $ server accDB
 
 
 -- need to allow cors communication with elm
@@ -51,5 +53,7 @@ api :: Proxy API
 api = Proxy
 
 server :: DB -> Server API
-server dbs = userServer accounts
-    where (Just accounts) = getDB "accountDB" dbs
+server db = userServer accounts
+       :<|> ankiServer ankis
+    where accounts = accountDB db
+          ankis    = ankiDB db

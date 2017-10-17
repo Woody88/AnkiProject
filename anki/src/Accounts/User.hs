@@ -7,6 +7,7 @@
 module Accounts.User (User, UserLogin, Accounts, initializeAccounts, users, createUser, getUser) where
 
 import Prelude
+import Data.Csv
 import Data.Aeson
 import Data.Aeson.TH
 import Control.Monad
@@ -31,23 +32,22 @@ data UserLogin = UserLogin
 
 instance ElmType User
 
+
 $(deriveJSON defaultOptions ''User)
 $(deriveJSON defaultOptions ''UserLogin)
 
 
 type Storage = Map Int User
-type Accounts = T.TMVar (Map Int User)
+type Accounts = T.TMVar Storage
 
 initializeAccounts :: IO (Accounts)
 initializeAccounts = T.atomically $ T.newTMVar $ Map.insert (1::Int) adminUser storage
   where adminUser = User 1 "Woodson" "Delhia" "1234"
         storage = Map.empty
 
-
-
 users :: Accounts -> IO [User]
 users accThread = do
-    accs <- (T.atomically . T.takeTMVar) accThread
+    accs <- (T.atomically . T.readTMVar) accThread
     return  (Map.elems accs)
 
 createUser :: Accounts -> User -> IO User

@@ -1,19 +1,24 @@
-module DB (DB, initializeDB, getDB) where
+module DB (DB(..), initializeDB, getDB) where
 
 import Accounts (AccountDB, initializeAccountsDB)
+import Anki (AnkiDB, initializeAnkiDB)
 import Data.Map (Map)
 import qualified Data.Map.Lazy as Map
 
-type Database = AccountDB
+data DB = DB { accountDB :: AccountDB
+             , ankiDB    :: AnkiDB
+             }
 
-type DB = Map String Database
-
-initializeDB :: IO (DB)
+initializeDB :: IO DB
 initializeDB = do
-  accounts <- putStrLn "Initializing Database..." >> initializeAccountsDB -- Set Memory DB for Accounts, later on will create a config file.
-  return $ Map.insert "accountDB" accounts db
-  where db = Map.empty
+             putStrLn "Initializing Database..."
+             accountDB <- initializeAccountsDB
+             ankiDB    <- initializeAnkiDB "anki_list.csv"
+             let db = setDB (accountDB, ankiDB)
+             return db
+  where setDB (acc, anki) = DB { accountDB = acc
+                               , ankiDB    = anki
+                               }
 
-getDB :: String -> DB -> Maybe Database
-getDB str dbs =
-  Map.lookup str dbs
+getDB :: String -> Map String a -> Maybe a
+getDB = Map.lookup

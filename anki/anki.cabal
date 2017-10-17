@@ -18,8 +18,15 @@ library
   exposed-modules:     Lib
                      , Accounts
                      , Accounts.User
+                     , DB
+                     , Anki
+                     , Anki.AnkiCard
   build-depends:       base >= 4.7 && < 5
                      , containers >= 0.5.7
+                     , bytestring
+                     , vector
+                     , cassava
+                     , text
                      , stm
                      , aeson
                      , servant-server

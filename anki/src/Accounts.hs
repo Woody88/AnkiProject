@@ -7,6 +7,7 @@ module Accounts where
 import Accounts.User (User, UserLogin, Accounts, users, createUser, getUser, initializeAccounts)
 import Servant
 import Control.Monad.IO.Class
+import Anki
 
 type UserServer = UserApi
 type AccountDB = Accounts
