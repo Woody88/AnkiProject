@@ -14,7 +14,7 @@ type AccountDB = Accounts
 
 type UserApi =  "users" :> Get '[JSON] [User]
            :<|> "user"  :> ReqBody '[JSON] User :> Post '[JSON] User
-           :<|> "user"  :> Capture "x" Int :> Get '[JSON] (Maybe User)
+           :<|> "user"  :> Capture "id" Int :> Get '[JSON] (Maybe User)
            -- :<|> "login" :> ReqBody '[JSON] UserLogin :> Post '[JSON] (Maybe User)
 
 userServer :: AccountDB -> Server UserServer
