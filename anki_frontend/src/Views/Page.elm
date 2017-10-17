@@ -4,6 +4,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Data.User as User exposing (User)
 import Data.Card as Card exposing (Card)
+import Data.AnkiCard exposing (AnkiCard)
 import Html.CssHelpers
 import Styling.MyCss as Css
 
@@ -15,6 +16,7 @@ import Styling.MyCss as Css
 type ActivePage
     = Home
     | Login
+    | FlashCard
 
 
 frame : Bool -> Maybe User -> ActivePage -> Html msg -> Html msg
@@ -27,9 +29,18 @@ menuOption value attrs =
     div [ class [ Css.MenuOption ] ] [ a attrs [ text value ] ]
 
 
-flashCard : Card -> List (Html.Attribute msg) -> Html msg
+flashCard : Maybe AnkiCard -> List (Html.Attribute msg) -> Html msg
 flashCard card attrs =
-    div [ class [ Css.FlashCardContainer ] ] [ p attrs [ text card.contentEn ] ]
+    let
+        display content =
+            div [ class [ Css.FlashCardContainer ] ] [ p attrs content ]
+    in
+        case card of
+            Nothing ->
+                display [ text "No Card" ]
+
+            Just c ->
+                display [ text c.contentEn ]
 
 
 timerField : String -> List (Html.Attribute msg) -> Html msg

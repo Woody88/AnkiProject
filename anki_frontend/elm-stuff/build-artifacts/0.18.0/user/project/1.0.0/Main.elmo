@@ -14,15 +14,23 @@ var _user$project$Main$decodeUserFromJson = function (json) {
 		_elm_lang$core$Maybe$andThen,
 		function (_p1) {
 			return _elm_lang$core$Result$toMaybe(
-				A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Data_User$decoder, _p1));
+				A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Data_User$decodeUser, _p1));
 		},
 		_elm_lang$core$Result$toMaybe(
 			A2(_elm_lang$core$Json_Decode$decodeValue, _elm_lang$core$Json_Decode$string, json)));
 };
+var _user$project$Main_ops = _user$project$Main_ops || {};
+_user$project$Main_ops['=>'] = F2(
+	function (v0, v1) {
+		return {ctor: '_Tuple2', _0: v0, _1: v1};
+	});
 var _user$project$Main$Model = F2(
 	function (a, b) {
 		return {session: a, pageState: b};
 	});
+var _user$project$Main$Errored = function (a) {
+	return {ctor: 'Errored', _0: a};
+};
 var _user$project$Main$NotFound = {ctor: 'NotFound'};
 var _user$project$Main$FlashCard = function (a) {
 	return {ctor: 'FlashCard', _0: a};
@@ -41,8 +49,37 @@ var _user$project$Main$TransitioningFrom = function (a) {
 var _user$project$Main$Loaded = function (a) {
 	return {ctor: 'Loaded', _0: a};
 };
+var _user$project$Main$pageErrored = F3(
+	function (model, activePage, errorMessage) {
+		var error = A2(_user$project$Page_Errored$pageLoadError, activePage, errorMessage);
+		return A2(
+			_user$project$Main_ops['=>'],
+			_elm_lang$core$Native_Utils.update(
+				model,
+				{
+					pageState: _user$project$Main$Loaded(
+						_user$project$Main$Errored(error))
+				}),
+			_elm_lang$core$Platform_Cmd$none);
+	});
+var _user$project$Main$FlashCardLoaded = function (a) {
+	return {ctor: 'FlashCardLoaded', _0: a};
+};
 var _user$project$Main$setRoute = F2(
 	function (maybeRoute, model) {
+		var errored = _user$project$Main$pageErrored(model);
+		var transition = F2(
+			function (toMsg, task) {
+				return A2(
+					_user$project$Main_ops['=>'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							pageState: _user$project$Main$TransitioningFrom(
+								_user$project$Main$getPage(model.pageState))
+						}),
+					A2(_elm_lang$core$Task$attempt, toMsg, task));
+			});
 		var _p2 = maybeRoute;
 		if (_p2.ctor === 'Nothing') {
 			return A2(
@@ -77,14 +114,9 @@ var _user$project$Main$setRoute = F2(
 						{ctor: '[]'});
 				default:
 					return A2(
-						_elm_lang$core$Platform_Cmd_ops['!'],
-						_elm_lang$core$Native_Utils.update(
-							model,
-							{
-								pageState: _user$project$Main$Loaded(
-									_user$project$Main$FlashCard(_user$project$Page_FlashCard$initialModel))
-							}),
-						{ctor: '[]'});
+						transition,
+						_user$project$Main$FlashCardLoaded,
+						_user$project$Page_FlashCard$init(model.session));
 			}
 		}
 	});
@@ -141,11 +173,13 @@ var _user$project$Main$viewPage = F3(
 					_elm_lang$html$Html$map,
 					_user$project$Main$HomeMsg,
 					A2(_user$project$Page_Home$view, session, _p7._0));
-			default:
+			case 'FlashCard':
 				return A2(
 					_elm_lang$html$Html$map,
 					_user$project$Main$FlashCardMsg,
 					A2(_user$project$Page_FlashCard$view, session, _p7._0));
+			default:
+				return A2(_user$project$Page_Errored$view, session, _p7._0);
 		}
 	});
 var _user$project$Main$view = function (model) {
@@ -178,13 +212,35 @@ var _user$project$Main$updatePage = F3(
 		var session = model.session;
 		var d = _elm_lang$core$Debug$log('in update page');
 		var _p10 = {ctor: '_Tuple2', _0: msg, _1: page};
-		_v6_5:
+		_v6_7:
 		do {
-			_v6_4:
+			_v6_6:
 			do {
 				switch (_p10._0.ctor) {
 					case 'SetRoute':
 						return A2(_user$project$Main$setRoute, _p10._0._0, model);
+					case 'FlashCardLoaded':
+						if (_p10._0._0.ctor === 'Ok') {
+							return A2(
+								_user$project$Main_ops['=>'],
+								_elm_lang$core$Native_Utils.update(
+									model,
+									{
+										pageState: _user$project$Main$Loaded(
+											_user$project$Main$FlashCard(_p10._0._0._0))
+									}),
+								_elm_lang$core$Platform_Cmd$none);
+						} else {
+							return A2(
+								_user$project$Main_ops['=>'],
+								_elm_lang$core$Native_Utils.update(
+									model,
+									{
+										pageState: _user$project$Main$Loaded(
+											_user$project$Main$Errored(_p10._0._0._0))
+									}),
+								_elm_lang$core$Platform_Cmd$none);
+						}
 					case 'HomeMsg':
 						switch (_p10._1.ctor) {
 							case 'Home':
@@ -196,9 +252,9 @@ var _user$project$Main$updatePage = F3(
 									_p10._0._0,
 									_p10._1._0);
 							case 'NotFound':
-								break _v6_4;
+								break _v6_6;
 							default:
-								break _v6_5;
+								break _v6_7;
 						}
 					case 'FlashCardMsg':
 						switch (_p10._1.ctor) {
@@ -211,9 +267,9 @@ var _user$project$Main$updatePage = F3(
 									_p10._0._0,
 									_p10._1._0);
 							case 'NotFound':
-								break _v6_4;
+								break _v6_6;
 							default:
-								break _v6_5;
+								break _v6_7;
 						}
 					default:
 						switch (_p10._1.ctor) {
@@ -237,9 +293,9 @@ var _user$project$Main$updatePage = F3(
 									_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$LoginMsg, cmd)
 								};
 							case 'NotFound':
-								break _v6_4;
+								break _v6_6;
 							default:
-								break _v6_5;
+								break _v6_7;
 						}
 				}
 			} while(false);

@@ -1,4 +1,4 @@
-var _user$project$Data_User$encode = function (user) {
+var _user$project$Data_User$encodeUser = function (user) {
 	return _elm_lang$core$Json_Encode$object(
 		{
 			ctor: '::',
@@ -26,7 +26,7 @@ var _user$project$Data_User$encode = function (user) {
 						_0: {
 							ctor: '_Tuple2',
 							_0: 'password',
-							_1: _elm_lang$core$Json_Encode$string(user.password)
+							_1: _elm_lang$core$Json_Encode$string(user.userPassword)
 						},
 						_1: {ctor: '[]'}
 					}
@@ -36,9 +36,9 @@ var _user$project$Data_User$encode = function (user) {
 };
 var _user$project$Data_User$User = F4(
 	function (a, b, c, d) {
-		return {userId: a, userFirstName: b, userLastName: c, password: d};
+		return {userId: a, userFirstName: b, userLastName: c, userPassword: d};
 	});
-var _user$project$Data_User$decoder = A3(
+var _user$project$Data_User$decodeUser = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'userPassword',
 	_elm_lang$core$Json_Decode$string,
@@ -55,3 +55,78 @@ var _user$project$Data_User$decoder = A3(
 				'userId',
 				_elm_lang$core$Json_Decode$int,
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Data_User$User)))));
+var _user$project$Data_User$getUsers = _elm_lang$http$Http$request(
+	{
+		method: 'GET',
+		headers: {ctor: '[]'},
+		url: A2(
+			_elm_lang$core$String$join,
+			'/',
+			{
+				ctor: '::',
+				_0: '',
+				_1: {
+					ctor: '::',
+					_0: 'users',
+					_1: {ctor: '[]'}
+				}
+			}),
+		body: _elm_lang$http$Http$emptyBody,
+		expect: _elm_lang$http$Http$expectJson(
+			_elm_lang$core$Json_Decode$list(_user$project$Data_User$decodeUser)),
+		timeout: _elm_lang$core$Maybe$Nothing,
+		withCredentials: false
+	});
+var _user$project$Data_User$postUser = function (body) {
+	return _elm_lang$http$Http$request(
+		{
+			method: 'POST',
+			headers: {ctor: '[]'},
+			url: A2(
+				_elm_lang$core$String$join,
+				'/',
+				{
+					ctor: '::',
+					_0: '',
+					_1: {
+						ctor: '::',
+						_0: 'user',
+						_1: {ctor: '[]'}
+					}
+				}),
+			body: _elm_lang$http$Http$jsonBody(
+				_user$project$Data_User$encodeUser(body)),
+			expect: _elm_lang$http$Http$expectJson(_user$project$Data_User$decodeUser),
+			timeout: _elm_lang$core$Maybe$Nothing,
+			withCredentials: false
+		});
+};
+var _user$project$Data_User$getUserById = function (capture_id) {
+	return _elm_lang$http$Http$request(
+		{
+			method: 'GET',
+			headers: {ctor: '[]'},
+			url: A2(
+				_elm_lang$core$String$join,
+				'/',
+				{
+					ctor: '::',
+					_0: '',
+					_1: {
+						ctor: '::',
+						_0: 'user',
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$http$Http$encodeUri(
+								_elm_lang$core$Basics$toString(capture_id)),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			body: _elm_lang$http$Http$emptyBody,
+			expect: _elm_lang$http$Http$expectJson(
+				_elm_lang$core$Json_Decode$maybe(_user$project$Data_User$decodeUser)),
+			timeout: _elm_lang$core$Maybe$Nothing,
+			withCredentials: false
+		});
+};

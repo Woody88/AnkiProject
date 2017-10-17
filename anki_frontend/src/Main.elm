@@ -6,14 +6,22 @@ import Page.Login as Login
 import Data.Session as Session exposing (Session)
 import Route exposing (Route)
 import Navigation exposing (..)
+import Task
 import Html exposing (..)
 import Json.Decode as Decode exposing (Value)
 import Data.User as User exposing (User)
 import Page.NotFound as NotFound
+import Page.Errored as Errored exposing (PageLoadError)
 import Page.Login as Login
 import Page.Home as Home
 import Page.FlashCard as FlashCard
+import Views.Page as Page exposing (ActivePage)
 import Debug
+
+
+(=>) : a -> b -> ( a, b )
+(=>) =
+    (,)
 
 
 type Page
@@ -22,6 +30,7 @@ type Page
     | Home Home.Model
     | FlashCard FlashCard.Model
     | NotFound
+    | Errored PageLoadError
 
 
 
@@ -56,7 +65,7 @@ decodeUserFromJson json =
     json
         |> Decode.decodeValue Decode.string
         |> Result.toMaybe
-        |> Maybe.andThen (Decode.decodeString User.decoder >> Result.toMaybe)
+        |> Maybe.andThen (Decode.decodeString User.decodeUser >> Result.toMaybe)
 
 
 view : Model -> Html Msg
@@ -96,6 +105,9 @@ viewPage session isLoading page =
             FlashCard.view session subModel
                 |> Html.map FlashCardMsg
 
+        Errored subModel ->
+            Errored.view session subModel
+
 
 initialPage : Page
 initialPage =
@@ -122,24 +134,42 @@ type Msg
     | LoginMsg Login.Msg
     | HomeMsg Home.Msg
     | FlashCardMsg FlashCard.Msg
+    | FlashCardLoaded (Result PageLoadError FlashCard.Model)
+
+
+pageErrored : Model -> ActivePage -> String -> ( Model, Cmd msg )
+pageErrored model activePage errorMessage =
+    let
+        error =
+            Errored.pageLoadError activePage errorMessage
+    in
+        { model | pageState = Loaded (Errored error) } => Cmd.none
 
 
 setRoute : Maybe Route -> Model -> ( Model, Cmd Msg )
 setRoute maybeRoute model =
-    case maybeRoute of
-        Nothing ->
-            { model | pageState = Loaded NotFound } ! []
+    let
+        transition toMsg task =
+            { model | pageState = TransitioningFrom (getPage model.pageState) }
+                => Task.attempt toMsg task
 
-        Just Route.Home ->
-            { model | pageState = Loaded (Home Home.initialModel) }
-                ! []
+        errored =
+            pageErrored model
+    in
+        case maybeRoute of
+            Nothing ->
+                { model | pageState = Loaded NotFound } ! []
 
-        -- |> auth
-        Just Route.Login ->
-            { model | pageState = Loaded (Login Login.initialModel) } ! []
+            Just Route.Home ->
+                { model | pageState = Loaded (Home Home.initialModel) }
+                    ! []
 
-        Just Route.FlashCard ->
-            { model | pageState = Loaded (FlashCard FlashCard.initialModel) } ! []
+            -- |> auth
+            Just Route.Login ->
+                { model | pageState = Loaded (Login Login.initialModel) } ! []
+
+            Just Route.FlashCard ->
+                transition FlashCardLoaded (FlashCard.init model.session)
 
 
 auth : ( Model, Cmd Msg ) -> ( Model, Cmd Msg )
@@ -176,6 +206,12 @@ updatePage page msg model =
         case ( msg, page ) of
             ( SetRoute route, _ ) ->
                 setRoute route model
+
+            ( FlashCardLoaded (Ok subModel), _ ) ->
+                { model | pageState = Loaded (FlashCard subModel) } => Cmd.none
+
+            ( FlashCardLoaded (Err error), _ ) ->
+                { model | pageState = Loaded (Errored error) } => Cmd.none
 
             ( HomeMsg subMsg, Home subModel ) ->
                 toPage Home HomeMsg (Home.update session) subMsg subModel

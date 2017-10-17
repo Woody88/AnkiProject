@@ -38,30 +38,41 @@ var _user$project$Views_Page$menuOption = F2(
 	});
 var _user$project$Views_Page$flashCard = F2(
 	function (card, attrs) {
-		return A2(
-			_elm_lang$html$Html$div,
-			{
-				ctor: '::',
-				_0: _user$project$Views_Page$class(
-					{
-						ctor: '::',
-						_0: _user$project$Styling_MyCss$FlashCardContainer,
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: A2(
-					_elm_lang$html$Html$p,
-					attrs,
-					{
-						ctor: '::',
-						_0: _elm_lang$html$Html$text(card.contentEn),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			});
+		var display = function (content) {
+			return A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _user$project$Views_Page$class(
+						{
+							ctor: '::',
+							_0: _user$project$Styling_MyCss$FlashCardContainer,
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: A2(_elm_lang$html$Html$p, attrs, content),
+					_1: {ctor: '[]'}
+				});
+		};
+		var _p1 = card;
+		if (_p1.ctor === 'Nothing') {
+			return display(
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('No Card'),
+					_1: {ctor: '[]'}
+				});
+		} else {
+			return display(
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(_p1._0.contentEn),
+					_1: {ctor: '[]'}
+				});
+		}
 	});
 var _user$project$Views_Page$timerField = F2(
 	function (value, attrs) {
@@ -190,5 +201,6 @@ var _user$project$Views_Page$arrowLeftBtn = A2(
 			{ctor: '[]'}),
 		_1: {ctor: '[]'}
 	});
+var _user$project$Views_Page$FlashCard = {ctor: 'FlashCard'};
 var _user$project$Views_Page$Login = {ctor: 'Login'};
 var _user$project$Views_Page$Home = {ctor: 'Home'};

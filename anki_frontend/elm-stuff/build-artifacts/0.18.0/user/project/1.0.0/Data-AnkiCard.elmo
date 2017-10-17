@@ -1,0 +1,51 @@
+var _user$project$Data_AnkiCard$AnkiCard = F6(
+	function (a, b, c, d, e, f) {
+		return {contentEn: a, contentJpKanji: b, contentJp: c, contextEn: d, contextJP: e, property: f};
+	});
+var _user$project$Data_AnkiCard$decodeAnkiCard = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'property',
+	_elm_lang$core$Json_Decode$string,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'contextJP',
+		_elm_lang$core$Json_Decode$string,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'contextEn',
+			_elm_lang$core$Json_Decode$string,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+				'contentJp',
+				_elm_lang$core$Json_Decode$string,
+				A3(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+					'contentJpKanji',
+					_elm_lang$core$Json_Decode$string,
+					A3(
+						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+						'contentEn',
+						_elm_lang$core$Json_Decode$string,
+						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Data_AnkiCard$AnkiCard)))))));
+var _user$project$Data_AnkiCard$getAnkis = _elm_lang$http$Http$request(
+	{
+		method: 'GET',
+		headers: {ctor: '[]'},
+		url: A2(
+			_elm_lang$core$String$join,
+			'/',
+			{
+				ctor: '::',
+				_0: 'http://localhost:3000',
+				_1: {
+					ctor: '::',
+					_0: 'ankis',
+					_1: {ctor: '[]'}
+				}
+			}),
+		body: _elm_lang$http$Http$emptyBody,
+		expect: _elm_lang$http$Http$expectJson(
+			_elm_lang$core$Json_Decode$list(_user$project$Data_AnkiCard$decodeAnkiCard)),
+		timeout: _elm_lang$core$Maybe$Nothing,
+		withCredentials: false
+	});
