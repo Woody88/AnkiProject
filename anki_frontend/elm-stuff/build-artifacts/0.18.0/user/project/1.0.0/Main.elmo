@@ -112,6 +112,16 @@ var _user$project$Main$setRoute = F2(
 									_user$project$Main$Login(_user$project$Page_Login$initialModel))
 							}),
 						{ctor: '[]'});
+				case 'NewFlashCard':
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{
+								pageState: _user$project$Main$Loaded(
+									_user$project$Main$FlashCard(_user$project$Page_FlashCard$initNewCard))
+							}),
+						{ctor: '[]'});
 				default:
 					return A2(
 						transition,

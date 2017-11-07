@@ -1,117 +1,376 @@
-var _user$project$Page_FlashCard$update = F3(
-	function (session, msg, model) {
-		var _p0 = msg;
-		return A2(
-			_elm_lang$core$Platform_Cmd_ops['!'],
-			model,
-			{ctor: '[]'});
-	});
-var _user$project$Page_FlashCard$initialModel = {
-	cards: {ctor: '[]'}
-};
-var _user$project$Page_FlashCard$_p1 = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('dreamwriter');
-var _user$project$Page_FlashCard$id = _user$project$Page_FlashCard$_p1.id;
-var _user$project$Page_FlashCard$class = _user$project$Page_FlashCard$_p1.$class;
-var _user$project$Page_FlashCard$classList = _user$project$Page_FlashCard$_p1.classList;
-var _user$project$Page_FlashCard$view = F2(
-	function (session, model) {
-		var d = A2(_elm_lang$core$Debug$log, 'check: ', model);
-		return A2(
-			_elm_lang$html$Html$div,
-			{
-				ctor: '::',
-				_0: _user$project$Page_FlashCard$class(
-					{
-						ctor: '::',
-						_0: _user$project$Styling_MyCss$MenuContainer,
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: _user$project$Views_Page$arrowLeftBtn,
-				_1: {
-					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$div,
-						{
-							ctor: '::',
-							_0: _user$project$Page_FlashCard$class(
-								{
-									ctor: '::',
-									_0: _user$project$Styling_MyCss$MenuContainerCol,
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: A2(
-								_user$project$Views_Page$flashCard,
-								_elm_lang$core$List$head(model.cards),
-								{ctor: '[]'}),
-							_1: {
-								ctor: '::',
-								_0: A2(
-									_user$project$Views_Page$timerField,
-									'0:30',
-									{ctor: '[]'}),
-								_1: {
-									ctor: '::',
-									_0: _user$project$Views_Page$rowContainer(
-										{
-											ctor: '::',
-											_0: A2(
-												_user$project$Views_Page$flashCardBtn,
-												'Option 1',
-												{ctor: '[]'}),
-											_1: {
-												ctor: '::',
-												_0: A2(
-													_user$project$Views_Page$flashCardBtn,
-													'Option 2',
-													{ctor: '[]'}),
-												_1: {
-													ctor: '::',
-													_0: A2(
-														_user$project$Views_Page$flashCardBtn,
-														'Option 3',
-														{ctor: '[]'}),
-													_1: {
-														ctor: '::',
-														_0: A2(
-															_user$project$Views_Page$flashCardBtn,
-															'Option 4',
-															{ctor: '[]'}),
-														_1: {ctor: '[]'}
-													}
-												}
-											}
-										}),
-									_1: {ctor: '[]'}
-								}
-							}
-						}),
-					_1: {
-						ctor: '::',
-						_0: _user$project$Views_Page$arrowRightBtn,
-						_1: {ctor: '[]'}
-					}
-				}
-			});
-	});
-var _user$project$Page_FlashCard$Model = function (a) {
-	return {cards: a};
-};
+var _user$project$Page_FlashCard$emptyCard = {cardId: 0, contentEn: '', contentJpKanji: '', contentJp: '', contextEn: '', contextJP: '', property: ''};
 var _user$project$Page_FlashCard$init = function (session) {
-	var handleLoadError = function (_p2) {
+	var handleLoadError = function (_p0) {
 		return A2(_user$project$Page_Errored$pageLoadError, _user$project$Views_Page$FlashCard, 'FlashCard is currently unavailable.');
+	};
+	var toModel = function (cardList) {
+		return {cards: cardList, newCard: _elm_lang$core$Maybe$Nothing, successPostPost: _elm_lang$core$Maybe$Nothing};
 	};
 	var loadAnkis = _elm_lang$http$Http$toTask(_user$project$Data_AnkiCard$getAnkis);
 	return A2(
 		_elm_lang$core$Task$mapError,
 		handleLoadError,
-		A2(_elm_lang$core$Task$map, _user$project$Page_FlashCard$Model, loadAnkis));
+		A2(_elm_lang$core$Task$map, toModel, loadAnkis));
 };
+var _user$project$Page_FlashCard$initialModel = {
+	cards: {ctor: '[]'},
+	newCard: _elm_lang$core$Maybe$Nothing,
+	successPostPost: _elm_lang$core$Maybe$Nothing
+};
+var _user$project$Page_FlashCard$initNewCard = function () {
+	var card = _user$project$Page_FlashCard$emptyCard;
+	return _elm_lang$core$Native_Utils.update(
+		_user$project$Page_FlashCard$initialModel,
+		{
+			newCard: _elm_lang$core$Maybe$Just(card)
+		});
+}();
+var _user$project$Page_FlashCard$_p1 = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('dreamwriter');
+var _user$project$Page_FlashCard$id = _user$project$Page_FlashCard$_p1.id;
+var _user$project$Page_FlashCard$class = _user$project$Page_FlashCard$_p1.$class;
+var _user$project$Page_FlashCard$classList = _user$project$Page_FlashCard$_p1.classList;
+var _user$project$Page_FlashCard$Model = F3(
+	function (a, b, c) {
+		return {cards: a, newCard: b, successPostPost: c};
+	});
+var _user$project$Page_FlashCard$SetSuccessPost = function (a) {
+	return {ctor: 'SetSuccessPost', _0: a};
+};
+var _user$project$Page_FlashCard$update = F3(
+	function (session, msg, model) {
+		var card = function () {
+			var _p2 = model.newCard;
+			if (_p2.ctor === 'Just') {
+				return _p2._0;
+			} else {
+				return _user$project$Page_FlashCard$emptyCard;
+			}
+		}();
+		var _p3 = msg;
+		switch (_p3.ctor) {
+			case 'NoOp':
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					model,
+					{ctor: '[]'});
+			case 'SetContentEn':
+				var c = _elm_lang$core$Native_Utils.update(
+					card,
+					{contentEn: _p3._0});
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						newCard: _elm_lang$core$Maybe$Just(c)
+					});
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					newModel,
+					{ctor: '[]'});
+			case 'SetContentKanji':
+				var c = _elm_lang$core$Native_Utils.update(
+					card,
+					{contentJpKanji: _p3._0});
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						newCard: _elm_lang$core$Maybe$Just(c)
+					});
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					newModel,
+					{ctor: '[]'});
+			case 'SetContentHirag':
+				var c = _elm_lang$core$Native_Utils.update(
+					card,
+					{contentJp: _p3._0});
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						newCard: _elm_lang$core$Maybe$Just(c)
+					});
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					newModel,
+					{ctor: '[]'});
+			case 'SetContextEn':
+				var c = _elm_lang$core$Native_Utils.update(
+					card,
+					{contextEn: _p3._0});
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						newCard: _elm_lang$core$Maybe$Just(c)
+					});
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					newModel,
+					{ctor: '[]'});
+			case 'SetContextJp':
+				var c = _elm_lang$core$Native_Utils.update(
+					card,
+					{contextJP: _p3._0});
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						newCard: _elm_lang$core$Maybe$Just(c)
+					});
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					newModel,
+					{ctor: '[]'});
+			case 'SetProperty':
+				var c = _elm_lang$core$Native_Utils.update(
+					card,
+					{property: _p3._0});
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						newCard: _elm_lang$core$Maybe$Just(c)
+					});
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					newModel,
+					{ctor: '[]'});
+			case 'SubmitNewAnki':
+				var p = A2(
+					_elm_lang$http$Http$send,
+					_user$project$Page_FlashCard$SetSuccessPost,
+					_user$project$Data_AnkiCard$postAnkis(
+						A2(_elm_lang$core$Maybe$withDefault, _user$project$Page_FlashCard$emptyCard, model.newCard)));
+				return A2(
+					_elm_lang$core$Platform_Cmd_ops['!'],
+					model,
+					{
+						ctor: '::',
+						_0: p,
+						_1: {ctor: '[]'}
+					});
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							successPostPost: _elm_lang$core$Maybe$Just(_p3._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+		}
+	});
+var _user$project$Page_FlashCard$SetProperty = function (a) {
+	return {ctor: 'SetProperty', _0: a};
+};
+var _user$project$Page_FlashCard$SetContextJp = function (a) {
+	return {ctor: 'SetContextJp', _0: a};
+};
+var _user$project$Page_FlashCard$SetContextEn = function (a) {
+	return {ctor: 'SetContextEn', _0: a};
+};
+var _user$project$Page_FlashCard$SetContentHirag = function (a) {
+	return {ctor: 'SetContentHirag', _0: a};
+};
+var _user$project$Page_FlashCard$SetContentKanji = function (a) {
+	return {ctor: 'SetContentKanji', _0: a};
+};
+var _user$project$Page_FlashCard$SetContentEn = function (a) {
+	return {ctor: 'SetContentEn', _0: a};
+};
+var _user$project$Page_FlashCard$SubmitNewAnki = {ctor: 'SubmitNewAnki'};
+var _user$project$Page_FlashCard$newCardForm = function (card) {
+	return A2(
+		_elm_lang$html$Html$form,
+		{
+			ctor: '::',
+			_0: _user$project$Page_FlashCard$class(
+				{
+					ctor: '::',
+					_0: _user$project$Styling_MyCss$FormControl,
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _user$project$Views_Form$input(
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$placeholder('English Anki'),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContentEn),
+						_1: {ctor: '[]'}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: _user$project$Views_Form$input(
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$placeholder('Kanji Anki'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContentKanji),
+							_1: {ctor: '[]'}
+						}
+					}),
+				_1: {
+					ctor: '::',
+					_0: _user$project$Views_Form$input(
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$placeholder('Hiragana Anki'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContentHirag),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {
+						ctor: '::',
+						_0: _user$project$Views_Form$textarea(
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$placeholder('Anki English Context'),
+								_1: {
+									ctor: '::',
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContextEn),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {
+							ctor: '::',
+							_0: _user$project$Views_Form$textarea(
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$placeholder('Anki Japanese Context'),
+									_1: {
+										ctor: '::',
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContextJp),
+										_1: {ctor: '[]'}
+									}
+								}),
+							_1: {
+								ctor: '::',
+								_0: _user$project$Views_Form$input(
+									{
+										ctor: '::',
+										_0: _elm_lang$html$Html_Attributes$placeholder('Anki Property'),
+										_1: {
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetProperty),
+											_1: {ctor: '[]'}
+										}
+									}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_user$project$Views_Form$submit,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(_user$project$Page_FlashCard$SubmitNewAnki),
+											_1: {ctor: '[]'}
+										},
+										'Add Anki'),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+var _user$project$Page_FlashCard$view = F2(
+	function (session, model) {
+		var d = A2(_elm_lang$core$Debug$log, 'check: ', model);
+		var _p4 = model.newCard;
+		if (_p4.ctor === 'Nothing') {
+			return A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _user$project$Page_FlashCard$class(
+						{
+							ctor: '::',
+							_0: _user$project$Styling_MyCss$MenuContainer,
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _user$project$Views_Page$arrowLeftBtn,
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$div,
+							{
+								ctor: '::',
+								_0: _user$project$Page_FlashCard$class(
+									{
+										ctor: '::',
+										_0: _user$project$Styling_MyCss$MenuContainerCol,
+										_1: {ctor: '[]'}
+									}),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: A2(
+									_user$project$Views_Page$flashCard,
+									_elm_lang$core$List$head(model.cards),
+									{ctor: '[]'}),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_user$project$Views_Page$timerField,
+										'0:30',
+										{ctor: '[]'}),
+									_1: {
+										ctor: '::',
+										_0: _user$project$Views_Page$rowContainer(
+											{
+												ctor: '::',
+												_0: A2(
+													_user$project$Views_Page$flashCardBtn,
+													'Option 1',
+													{ctor: '[]'}),
+												_1: {
+													ctor: '::',
+													_0: A2(
+														_user$project$Views_Page$flashCardBtn,
+														'Option 2',
+														{ctor: '[]'}),
+													_1: {
+														ctor: '::',
+														_0: A2(
+															_user$project$Views_Page$flashCardBtn,
+															'Option 3',
+															{ctor: '[]'}),
+														_1: {
+															ctor: '::',
+															_0: A2(
+																_user$project$Views_Page$flashCardBtn,
+																'Option 4',
+																{ctor: '[]'}),
+															_1: {ctor: '[]'}
+														}
+													}
+												}
+											}),
+										_1: {ctor: '[]'}
+									}
+								}
+							}),
+						_1: {
+							ctor: '::',
+							_0: _user$project$Views_Page$arrowRightBtn,
+							_1: {ctor: '[]'}
+						}
+					}
+				});
+		} else {
+			return _user$project$Page_FlashCard$newCardForm(_p4._0);
+		}
+	});
 var _user$project$Page_FlashCard$NoOp = {ctor: 'NoOp'};

@@ -28,6 +28,7 @@ view session model =
     div [ class [ Css.MenuContainer ], style [ ( "zoom", "1.6" ) ] ]
         [ Page.menuOption "Flash Card" [ Route.href Route.FlashCard ]
         , Page.menuOption "Study Place" []
+        , Page.menuOption "New Anki" [ Route.href Route.NewFlashCard ]
         ]
 
 

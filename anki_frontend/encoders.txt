@@ -1,0 +1,22 @@
+encodeAnkiCard : AnkiCard -> Value
+encodeAnkiCard card =
+    Encode.object
+        [ ( "cardId", Encode.int card.cardId )
+        , ( "contentEn", Encode.string card.contentEn )
+        , ( "contentJpKanji", Encode.string card.contentJpKanji )
+        , ( "contentJp", Encode.string card.contentJp )
+        , ( "contextEn", Encode.string card.contentJp )
+        , ( "contextJP", Encode.string card.contentJp )
+        , ( "property", Encode.string card.contentJp )
+        ]
+
+
+
+encodeUser : User -> Value
+encodeUser user =
+    Encode.object
+        [ ( "userId", Encode.int user.userId )
+        , ( "userFirstName", Encode.string user.userFirstName )
+        , ( "userLastName", Encode.string user.userLastName )
+        , ( "password", Encode.string user.userPassword )
+        ]

@@ -168,6 +168,9 @@ setRoute maybeRoute model =
             Just Route.Login ->
                 { model | pageState = Loaded (Login Login.initialModel) } ! []
 
+            Just Route.NewFlashCard ->
+                { model | pageState = Loaded (FlashCard FlashCard.initNewCard) } ! []
+
             Just Route.FlashCard ->
                 transition FlashCardLoaded (FlashCard.init model.session)
 

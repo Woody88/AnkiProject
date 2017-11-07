@@ -1,6 +1,66 @@
-var _user$project$Data_AnkiCard$AnkiCard = F6(
-	function (a, b, c, d, e, f) {
-		return {contentEn: a, contentJpKanji: b, contentJp: c, contextEn: d, contextJP: e, property: f};
+var _user$project$Data_AnkiCard$encodeAnkiCard = function (card) {
+	return _elm_lang$core$Json_Encode$object(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'cardId',
+				_1: _elm_lang$core$Json_Encode$int(card.cardId)
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'contentEn',
+					_1: _elm_lang$core$Json_Encode$string(card.contentEn)
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'contentJpKanji',
+						_1: _elm_lang$core$Json_Encode$string(card.contentJpKanji)
+					},
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'contentJp',
+							_1: _elm_lang$core$Json_Encode$string(card.contentJp)
+						},
+						_1: {
+							ctor: '::',
+							_0: {
+								ctor: '_Tuple2',
+								_0: 'contextEn',
+								_1: _elm_lang$core$Json_Encode$string(card.contextEn)
+							},
+							_1: {
+								ctor: '::',
+								_0: {
+									ctor: '_Tuple2',
+									_0: 'contextJP',
+									_1: _elm_lang$core$Json_Encode$string(card.contextJP)
+								},
+								_1: {
+									ctor: '::',
+									_0: {
+										ctor: '_Tuple2',
+										_0: 'property',
+										_1: _elm_lang$core$Json_Encode$string(card.property)
+									},
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+};
+var _user$project$Data_AnkiCard$AnkiCard = F7(
+	function (a, b, c, d, e, f, g) {
+		return {cardId: a, contentEn: b, contentJpKanji: c, contentJp: d, contextEn: e, contextJP: f, property: g};
 	});
 var _user$project$Data_AnkiCard$decodeAnkiCard = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
@@ -26,7 +86,11 @@ var _user$project$Data_AnkiCard$decodeAnkiCard = A3(
 						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 						'contentEn',
 						_elm_lang$core$Json_Decode$string,
-						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Data_AnkiCard$AnkiCard)))))));
+						A3(
+							_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+							'cardId',
+							_elm_lang$core$Json_Decode$int,
+							_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Data_AnkiCard$AnkiCard))))))));
 var _user$project$Data_AnkiCard$getAnkis = _elm_lang$http$Http$request(
 	{
 		method: 'GET',
@@ -36,7 +100,7 @@ var _user$project$Data_AnkiCard$getAnkis = _elm_lang$http$Http$request(
 			'/',
 			{
 				ctor: '::',
-				_0: 'http://localhost:3000',
+				_0: '',
 				_1: {
 					ctor: '::',
 					_0: 'ankis',
@@ -48,4 +112,88 @@ var _user$project$Data_AnkiCard$getAnkis = _elm_lang$http$Http$request(
 			_elm_lang$core$Json_Decode$list(_user$project$Data_AnkiCard$decodeAnkiCard)),
 		timeout: _elm_lang$core$Maybe$Nothing,
 		withCredentials: false
+	});
+var _user$project$Data_AnkiCard$postAnkis = function (body) {
+	return _elm_lang$http$Http$request(
+		{
+			method: 'POST',
+			headers: {ctor: '[]'},
+			url: A2(
+				_elm_lang$core$String$join,
+				'/',
+				{
+					ctor: '::',
+					_0: '',
+					_1: {
+						ctor: '::',
+						_0: 'ankis',
+						_1: {ctor: '[]'}
+					}
+				}),
+			body: _elm_lang$http$Http$jsonBody(
+				_user$project$Data_AnkiCard$encodeAnkiCard(body)),
+			expect: _elm_lang$http$Http$expectJson(_user$project$Data_AnkiCard$decodeAnkiCard),
+			timeout: _elm_lang$core$Maybe$Nothing,
+			withCredentials: false
+		});
+};
+var _user$project$Data_AnkiCard$getAnkiByCardId = function (capture_cardId) {
+	return _elm_lang$http$Http$request(
+		{
+			method: 'GET',
+			headers: {ctor: '[]'},
+			url: A2(
+				_elm_lang$core$String$join,
+				'/',
+				{
+					ctor: '::',
+					_0: '',
+					_1: {
+						ctor: '::',
+						_0: 'anki',
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$http$Http$encodeUri(
+								_elm_lang$core$Basics$toString(capture_cardId)),
+							_1: {ctor: '[]'}
+						}
+					}
+				}),
+			body: _elm_lang$http$Http$emptyBody,
+			expect: _elm_lang$http$Http$expectJson(
+				_elm_lang$core$Json_Decode$maybe(_user$project$Data_AnkiCard$decodeAnkiCard)),
+			timeout: _elm_lang$core$Maybe$Nothing,
+			withCredentials: false
+		});
+};
+var _user$project$Data_AnkiCard$putAnkiByCardId = F2(
+	function (capture_cardId, body) {
+		return _elm_lang$http$Http$request(
+			{
+				method: 'PUT',
+				headers: {ctor: '[]'},
+				url: A2(
+					_elm_lang$core$String$join,
+					'/',
+					{
+						ctor: '::',
+						_0: '',
+						_1: {
+							ctor: '::',
+							_0: 'anki',
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$http$Http$encodeUri(
+									_elm_lang$core$Basics$toString(capture_cardId)),
+								_1: {ctor: '[]'}
+							}
+						}
+					}),
+				body: _elm_lang$http$Http$jsonBody(
+					_user$project$Data_AnkiCard$encodeAnkiCard(body)),
+				expect: _elm_lang$http$Http$expectJson(
+					_elm_lang$core$Json_Decode$maybe(_user$project$Data_AnkiCard$decodeAnkiCard)),
+				timeout: _elm_lang$core$Maybe$Nothing,
+				withCredentials: false
+			});
 	});

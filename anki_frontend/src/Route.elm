@@ -13,6 +13,7 @@ type Route
     = Login
     | Home
     | FlashCard
+    | NewFlashCard
 
 
 route : Parser (Route -> a) a
@@ -21,6 +22,7 @@ route =
         [ Url.map Home (s "")
         , Url.map Login (s "login")
         , Url.map FlashCard (s "flashcard")
+        , Url.map NewFlashCard (s "newflashcard")
         ]
 
 
@@ -37,6 +39,9 @@ routeToString page =
 
                 FlashCard ->
                     [ "flashcard" ]
+
+                NewFlashCard ->
+                    [ "newflashcard" ]
     in
         "#" ++ String.join "/" extras
 

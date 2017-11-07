@@ -1,6 +1,8 @@
-ContentEn,ContentJpKanji,ContentJp,ContextEn,ContextJP,Property
-Protection,安全,あんぜん,"For you protection, please fasten your seat belt",安全のためシートベルトを着用してください。,Noun
-Control,管理,かんり,,,Noun
-Safeguard,,,,,
-Incident,,,,,
-Breach,,,,,
+CardId,ContentEn,ContentJpKanji,ContentJp,ContextEn,ContextJP,Property
+1,Protection,安全,あんぜん,"For you protection, please fasten your seat belt",安全のためシートベルトを着用してください。,Noun
+2,Control,管理,かんり,,,Noun
+3,Safeguard,,,,,
+4,Incident,,,,,
+5,Breach,,,,,
+6,Job,仕事,しごと,"I have a job.",私は仕事があります。,Noun
+7,Sue," 告訴",こくそ,"I will sue you for hitting me.",告訴の事情について教えてください。,Noun

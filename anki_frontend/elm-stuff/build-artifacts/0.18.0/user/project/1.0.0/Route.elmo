@@ -14,10 +14,16 @@ var _user$project$Route$routeToString = function (page) {
 					_0: 'login',
 					_1: {ctor: '[]'}
 				};
-			default:
+			case 'FlashCard':
 				return {
 					ctor: '::',
 					_0: 'flashcard',
+					_1: {ctor: '[]'}
+				};
+			default:
+				return {
+					ctor: '::',
+					_0: 'newflashcard',
 					_1: {ctor: '[]'}
 				};
 		}
@@ -35,6 +41,7 @@ var _user$project$Route$modifyUrl = function (_p1) {
 	return _elm_lang$navigation$Navigation$newUrl(
 		_user$project$Route$routeToString(_p1));
 };
+var _user$project$Route$NewFlashCard = {ctor: 'NewFlashCard'};
 var _user$project$Route$FlashCard = {ctor: 'FlashCard'};
 var _user$project$Route$Home = {ctor: 'Home'};
 var _user$project$Route$Login = {ctor: 'Login'};
@@ -57,7 +64,14 @@ var _user$project$Route$route = _evancz$url_parser$UrlParser$oneOf(
 					_evancz$url_parser$UrlParser$map,
 					_user$project$Route$FlashCard,
 					_evancz$url_parser$UrlParser$s('flashcard')),
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_evancz$url_parser$UrlParser$map,
+						_user$project$Route$NewFlashCard,
+						_evancz$url_parser$UrlParser$s('newflashcard')),
+					_1: {ctor: '[]'}
+				}
 			}
 		}
 	});

@@ -1,8 +1,8 @@
 module Data.User exposing (..)
 
+import Json.Encode as Encode
 import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
-import Json.Encode as Encode
 import Http
 import String
 

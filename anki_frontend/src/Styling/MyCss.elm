@@ -1,13 +1,14 @@
 module Styling.MyCss exposing (..)
 
 import Css exposing (..)
-import Css.Elements exposing (body, li, html, input, a, p)
+import Css.Elements exposing (body, li, html, input, textarea, a, p)
 import Css.Namespace exposing (namespace)
 
 
 type CssClasses
     = NavBar
     | InputControl
+    | TextAreaControl
     | FormControl
     | SubmitControl
     | MenuOption
@@ -68,6 +69,7 @@ css =
         , class SubmitControl submitControl
         , class FormControl formControl
         , class InputControl (inputControl (hex "fff"))
+        , class TextAreaControl (textAreaControl (hex "fff"))
         , class MenuOption menuOption
         , class NavBar
             [ margin zero
@@ -302,6 +304,27 @@ inputControl cl =
             , fontSize medium
             , textTransform uppercase
             , outline zero
+            , fontFamily inherit
+            ]
+        ]
+    ]
+
+
+textAreaControl cl =
+    [ padding (px 15)
+    , width (pct 20)
+    , backgroundColor cl
+    , boxShadow5 zero (px 6) (px 10) zero (rgba 0 0 0 0.1)
+    , outline zero
+    , fontSize (em 1)
+    , justifyContent center
+    , alignItems center
+    , margin (em 1)
+    , children
+        [ textarea
+            [ border zero
+            , fontSize medium
+            , textTransform uppercase
             , fontFamily inherit
             ]
         ]

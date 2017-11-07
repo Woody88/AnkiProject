@@ -60,6 +60,28 @@ var _user$project$Views_Form$input = function (attrs) {
 			_1: {ctor: '[]'}
 		});
 };
+var _user$project$Views_Form$textarea = function (attrs) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _user$project$Views_Form$class(
+				{
+					ctor: '::',
+					_0: _user$project$Styling_MyCss$TextAreaControl,
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$textarea,
+				attrs,
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$Views_Form$submit = F2(
 	function (attrs, text) {
 		return A2(

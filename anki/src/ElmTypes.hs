@@ -14,6 +14,7 @@ import Anki.AnkiCard (AnkiCard(..))
 import Accounts (UserServer)
 import Accounts.User (User(..))
 
+
 type NameSpace = Text
 
 elmDir :: FilePath
@@ -25,9 +26,9 @@ elmNameSpace = "Data"
 ankiSpec :: Spec
 ankiSpec = Spec [elmNameSpace, "AnkiCard"]
             (defElmImports
-             : toElmTypeSource    (Proxy :: Proxy AnkiCard)
-             : toElmDecoderSource (Proxy :: Proxy AnkiCard)
-             : generateElmForAPI  (Proxy :: Proxy AnkiServer))
+            : toElmTypeSource    (Proxy :: Proxy AnkiCard)
+            : toElmDecoderSource (Proxy :: Proxy AnkiCard)
+            : generateElmForAPI  (Proxy :: Proxy AnkiServer))
 
 userSpec :: Spec
 userSpec = Spec [elmNameSpace, "User"]

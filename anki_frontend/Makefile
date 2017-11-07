@@ -9,8 +9,10 @@ IMAGES = assets/images
 HTML = src/index.html
 
 
+compile: build-directory html css js 
+
 build:  build-directory html css js browser-sync
-	
+
 rebuild: build-directory html css js
 	@$(BIN)/browser-sync reload
 	@echo -e "\n\n\n\n"

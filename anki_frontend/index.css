@@ -236,6 +236,25 @@ html {
     font-family: inherit;
 }
 
+.dreamwriterTextAreaControl {
+    padding: 15px;
+    width: 20%;
+    background-color: #fff;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.1);
+    outline: 0;
+    font-size: 1em;
+    justify-content: center;
+    align-items: center;
+    margin: 1em;
+}
+
+.dreamwriterTextAreaControl > textarea {
+    border: 0;
+    font-size: medium;
+    text-transform: uppercase;
+    font-family: inherit;
+}
+
 .dreamwriterMenuOption {
     display: flex;
     text-align: center;
