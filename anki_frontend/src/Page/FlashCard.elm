@@ -1,7 +1,7 @@
 module Page.FlashCard exposing (..)
 
 import Data.Card as Card exposing (Card)
-import Data.AnkiCard as AnkiCard exposing (AnkiCard, getAnkis, postAnkis)
+import Data.AnkiCard as AnkiCard exposing (AnkiCard, getAnkis, getAnkiByCardId, postAnkis, putAnkiByCardId)
 import Data.Session as Session exposing (Session)
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -27,12 +27,16 @@ type alias Model =
     { cards : List AnkiCard
     , newCard : Maybe AnkiCard
     , successPostPost : Maybe (Result Http.Error AnkiCard)
+    , successEdit : Maybe (Result Http.Error (Maybe AnkiCard))
+    , listView : Bool
+    , editView : Bool
     }
 
 
 type Msg
     = NoOp
     | SubmitNewAnki
+    | UpdateAnki
     | SetContentEn String
     | SetContentKanji String
     | SetContentHirag String
@@ -40,6 +44,7 @@ type Msg
     | SetContextJp String
     | SetProperty String
     | SetSuccessPost (Result Http.Error AnkiCard)
+    | SetSuccessEdit (Result Http.Error (Maybe AnkiCard))
 
 
 initialModel : Model
@@ -47,21 +52,21 @@ initialModel =
     { cards = []
     , newCard = Nothing
     , successPostPost = Nothing
+    , successEdit = Nothing
+    , listView = False
+    , editView = False
     }
 
 
-init : Session -> Task PageLoadError Model
-init session =
+init : Session -> Bool -> Task PageLoadError Model
+init session listview =
     let
         loadAnkis =
             (AnkiCard.getAnkis)
                 |> Http.toTask
 
         toModel cardList =
-            { cards = cardList
-            , newCard = Nothing
-            , successPostPost = Nothing
-            }
+            { initialModel | cards = cardList, listView = listview }
 
         handleLoadError _ =
             pageLoadError Page.FlashCard "FlashCard is currently unavailable."
@@ -83,6 +88,29 @@ emptyCard =
     }
 
 
+initCardList : Model
+initCardList =
+    { initialModel | listView = True }
+
+
+initEditCard : Session -> Int -> Task PageLoadError Model
+initEditCard session cardId =
+    let
+        loadAnki =
+            (AnkiCard.getAnkiByCardId cardId)
+                |> Http.toTask
+
+        toModel card =
+            { initialModel | newCard = card, editView = True }
+
+        handleLoadError _ =
+            pageLoadError Page.FlashCard "FlashCard is currently unavailable."
+    in
+        loadAnki
+            |> Task.map toModel
+            |> Task.mapError handleLoadError
+
+
 initNewCard : Model
 initNewCard =
     let
@@ -92,17 +120,30 @@ initNewCard =
         { initialModel | newCard = Just card }
 
 
-newCardForm : AnkiCard -> Html Msg
-newCardForm card =
+newCardForm : AnkiCard -> Msg -> Html Msg
+newCardForm card submiter =
     Html.form [ class [ Css.FormControl ] ]
-        [ Form.input [ placeholder "English Anki", onInput SetContentEn ]
-        , Form.input [ placeholder "Kanji Anki", onInput SetContentKanji ]
-        , Form.input [ placeholder "Hiragana Anki", onInput SetContentHirag ]
-        , Form.textarea [ placeholder "Anki English Context", onInput SetContextEn ]
-        , Form.textarea [ placeholder "Anki Japanese Context", onInput SetContextJp ]
-        , Form.input [ placeholder "Anki Property", onInput SetProperty ]
-        , Form.submit [ onClick SubmitNewAnki ] "Add Anki"
+        [ Form.input [ placeholder "English Anki", onInput SetContentEn, value card.contentEn ]
+        , Form.input [ placeholder "Kanji Anki", onInput SetContentKanji, value card.contentJpKanji ]
+        , Form.input [ placeholder "Hiragana Anki", onInput SetContentHirag, value card.contentJp ]
+        , Form.textarea [ placeholder "Anki English Context", onInput SetContextEn, value card.contextEn ]
+        , Form.textarea [ placeholder "Anki Japanese Context", onInput SetContextJp, value card.contextJP ]
+        , Form.input [ placeholder "Anki Property", onInput SetProperty, value card.property ]
+        , Form.submit [ onClick submiter ] "Add Anki"
         ]
+
+
+listView : Session -> Model -> Html Msg
+listView session model =
+    div [ class [ Css.MenuContainer ] ] (cards model.cards)
+
+
+
+--cards : List AnkiCard -> List (List (Html Msg))
+
+
+cards list =
+    List.map (\x -> Page.menuOption x.contentEn [ Route.href (Route.EditFlashCard x.cardId) ]) list
 
 
 view : Session -> Model -> Html Msg
@@ -111,25 +152,33 @@ view session model =
         d =
             Debug.log "check: " model
     in
-        case model.newCard of
-            Nothing ->
-                div [ class [ Css.MenuContainer ] ]
-                    [ Page.arrowLeftBtn
-                    , div [ class [ Css.MenuContainerCol ] ]
-                        [ Page.flashCard (List.head model.cards) []
-                        , Page.timerField "0:30" []
-                        , Page.rowContainer
-                            [ Page.flashCardBtn "Option 1" []
-                            , Page.flashCardBtn "Option 2" []
-                            , Page.flashCardBtn "Option 3" []
-                            , Page.flashCardBtn "Option 4" []
+        if (model.listView) then
+            listView session model
+        else
+            case model.newCard of
+                Nothing ->
+                    div [ class [ Css.MenuContainer ] ]
+                        [ Page.arrowLeftBtn
+                        , div [ class [ Css.MenuContainerCol ] ]
+                            [ Page.flashCard (List.head model.cards) []
+                            , Page.timerField "0:30" []
+                            , Page.rowContainer
+                                [ Page.flashCardBtn "Option 1" []
+                                , Page.flashCardBtn "Option 2" []
+                                , Page.flashCardBtn "Option 3" []
+                                , Page.flashCardBtn "Option 4" []
+                                ]
                             ]
+                        , Page.arrowRightBtn
                         ]
-                    , Page.arrowRightBtn
-                    ]
 
-            Just card ->
-                newCardForm card
+                Just card ->
+                    newCardForm card
+                        (if model.editView then
+                            UpdateAnki
+                         else
+                            SubmitNewAnki
+                        )
 
 
 update : Session -> Msg -> Model -> ( Model, Cmd Msg )
@@ -214,6 +263,24 @@ update session msg model =
                             |> Http.send SetSuccessPost
                 in
                     model ! [ p ]
+
+            UpdateAnki ->
+                case model.newCard of
+                    Just c ->
+                        let
+                            p =
+                                putAnkiByCardId c.cardId c
+                                    |> Http.send SetSuccessEdit
+                        in
+                            model ! [ p ]
+
+                    Nothing ->
+                        model ! []
+
+            SetSuccessEdit result ->
+                ( { model | successEdit = Just result }
+                , Cmd.none
+                )
 
             SetSuccessPost result ->
                 ( { model | successPostPost = Just result }

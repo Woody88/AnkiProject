@@ -29,6 +29,7 @@ view session model =
         [ Page.menuOption "Flash Card" [ Route.href Route.FlashCard ]
         , Page.menuOption "Study Place" []
         , Page.menuOption "New Anki" [ Route.href Route.NewFlashCard ]
+        , Page.menuOption "Anki List" [ Route.href Route.FlashCardList ]
         ]
 
 

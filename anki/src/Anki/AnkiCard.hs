@@ -81,11 +81,9 @@ updateCard ankiThread cId card = do
             cardStorage <- (T.atomically . T.takeTMVar) ankiThread
             let cardToUpdate = (Map.lookup cId cardStorage)
             case cardToUpdate of
-              Nothing    -> return Nothing
+              Nothing    -> putStrLn "Not Found!" >> return Nothing
               Just value -> insertToDB cardStorage >> return (Just card)
             where insertToDB storage = (T.atomically . (T.putTMVar ankiThread)) $ Map.insert cId card storage
-
---updateDiskDB
 
 insertDB :: AnkiCard -> IO ()
 insertDB card = BL.appendFile "anki_list.csv" (Csv.encode [card]) >> putStrLn "New Data Appended!"

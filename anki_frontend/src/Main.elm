@@ -171,8 +171,14 @@ setRoute maybeRoute model =
             Just Route.NewFlashCard ->
                 { model | pageState = Loaded (FlashCard FlashCard.initNewCard) } ! []
 
+            Just (Route.EditFlashCard id_) ->
+                transition FlashCardLoaded (FlashCard.initEditCard model.session id_)
+
+            Just Route.FlashCardList ->
+                transition FlashCardLoaded (FlashCard.init model.session True)
+
             Just Route.FlashCard ->
-                transition FlashCardLoaded (FlashCard.init model.session)
+                transition FlashCardLoaded (FlashCard.init model.session False)
 
 
 auth : ( Model, Cmd Msg ) -> ( Model, Cmd Msg )

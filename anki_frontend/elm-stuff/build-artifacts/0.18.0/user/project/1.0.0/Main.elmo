@@ -122,11 +122,21 @@ var _user$project$Main$setRoute = F2(
 									_user$project$Main$FlashCard(_user$project$Page_FlashCard$initNewCard))
 							}),
 						{ctor: '[]'});
+				case 'EditFlashCard':
+					return A2(
+						transition,
+						_user$project$Main$FlashCardLoaded,
+						A2(_user$project$Page_FlashCard$initEditCard, model.session, _p2._0._0));
+				case 'FlashCardList':
+					return A2(
+						transition,
+						_user$project$Main$FlashCardLoaded,
+						A2(_user$project$Page_FlashCard$init, model.session, true));
 				default:
 					return A2(
 						transition,
 						_user$project$Main$FlashCardLoaded,
-						_user$project$Page_FlashCard$init(model.session));
+						A2(_user$project$Page_FlashCard$init, model.session, false));
 			}
 		}
 	});
