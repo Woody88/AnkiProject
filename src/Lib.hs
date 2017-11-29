@@ -9,6 +9,7 @@ module Lib
 
 import Data.Aeson
 import Data.Aeson.TH
+import Data.Maybe (fromMaybe)
 import Network.Wai
 import Network.Wai.Middleware.Cors
 import Network.Wai.Handler.Warp
@@ -16,6 +17,7 @@ import           Network.Wai.Logger       (withStdoutLogger)
 import Network.Wai.Middleware.RequestLogger (logStdoutDev)
 import Servant
 import Servant.Utils.StaticFiles
+import System.Environment (lookupEnv)
 import DB (DB(..), initializeDB, getDB)
 import Accounts (UserServer, userServer)
 import Anki (AnkiServer, ankiServer)
@@ -36,7 +38,9 @@ startApp :: IO ()
 startApp = do
     -- accounts <- putStrLn "Initializing Accounts..." >> initializeAccountsDB -- Set Memory DB for Accounts, later on will create a config file.
     dbs <- initializeDB
-    putStrLn "Server Running..." >> run 3000 (logStdoutDev $ app dbs)
+    portEnv    <- lookupEnv "PORT"
+    let port = read (fromMaybe "8080" portEnv) :: Int 
+    putStrLn "Server Running..." >> run  port (logStdoutDev $ app dbs)
 
 app :: DB -> Application
 app accDB = appCors $ serve api $ server accDB
