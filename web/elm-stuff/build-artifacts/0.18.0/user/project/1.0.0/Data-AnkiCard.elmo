@@ -91,28 +91,38 @@ var _user$project$Data_AnkiCard$decodeAnkiCard = A3(
 							'cardId',
 							_elm_lang$core$Json_Decode$int,
 							_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Data_AnkiCard$AnkiCard))))))));
-var _user$project$Data_AnkiCard$getAnkis = _elm_lang$http$Http$request(
-	{
-		method: 'GET',
-		headers: {ctor: '[]'},
-		url: A2(
-			_elm_lang$core$String$join,
-			'/',
-			{
+var _user$project$Data_AnkiCard$getAnkis = function (_p0) {
+	var _p1 = _p0;
+	return _elm_lang$http$Http$request(
+		{
+			method: 'GET',
+			headers: {
 				ctor: '::',
-				_0: '',
-				_1: {
+				_0: A2(
+					_elm_lang$http$Http$header,
+					'Authorization',
+					A2(_elm_lang$core$Basics_ops['++'], 'Bearer ', _p1._0)),
+				_1: {ctor: '[]'}
+			},
+			url: A2(
+				_elm_lang$core$String$join,
+				'/',
+				{
 					ctor: '::',
-					_0: 'ankis',
-					_1: {ctor: '[]'}
-				}
-			}),
-		body: _elm_lang$http$Http$emptyBody,
-		expect: _elm_lang$http$Http$expectJson(
-			_elm_lang$core$Json_Decode$list(_user$project$Data_AnkiCard$decodeAnkiCard)),
-		timeout: _elm_lang$core$Maybe$Nothing,
-		withCredentials: false
-	});
+					_0: '',
+					_1: {
+						ctor: '::',
+						_0: 'anki',
+						_1: {ctor: '[]'}
+					}
+				}),
+			body: _elm_lang$http$Http$emptyBody,
+			expect: _elm_lang$http$Http$expectJson(
+				_elm_lang$core$Json_Decode$list(_user$project$Data_AnkiCard$decodeAnkiCard)),
+			timeout: _elm_lang$core$Maybe$Nothing,
+			withCredentials: false
+		});
+};
 var _user$project$Data_AnkiCard$postAnkis = function (body) {
 	return _elm_lang$http$Http$request(
 		{

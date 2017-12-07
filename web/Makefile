@@ -9,7 +9,7 @@ IMAGES = assets/images
 HTML = src/index.html
 
 
-compile: build-directory html css js 
+compile: build-directory html css js
 
 build:  build-directory html css js browser-sync
 

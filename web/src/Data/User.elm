@@ -14,7 +14,6 @@ type alias User =
     , userPassword : String
     }
 
-
 encodeUser : User -> Value
 encodeUser user =
     Encode.object
@@ -56,30 +55,6 @@ getUsers =
             False
         }
 
-
-postUser : User -> Http.Request User
-postUser body =
-    Http.request
-        { method =
-            "POST"
-        , headers =
-            []
-        , url =
-            String.join "/"
-                [ ""
-                , "user"
-                ]
-        , body =
-            Http.jsonBody (encodeUser body)
-        , expect =
-            Http.expectJson decodeUser
-        , timeout =
-            Nothing
-        , withCredentials =
-            False
-        }
-
-
 getUserById : Int -> Http.Request (Maybe User)
 getUserById capture_id =
     Http.request
@@ -102,3 +77,11 @@ getUserById capture_id =
         , withCredentials =
             False
         }
+
+-- for ignoring no content response
+ignoreResponseBody : Http.Expect ()
+ignoreResponseBody =
+    Http.expectStringResponse (\response ->
+        let d = Debug.log "response" response
+        in
+            Ok ())

@@ -1,3 +1,9 @@
+var _user$project$Data_User$ignoreResponseBody = _elm_lang$http$Http$expectStringResponse(
+	function (response) {
+		var d = A2(_elm_lang$core$Debug$log, 'response', response);
+		return _elm_lang$core$Result$Ok(
+			{ctor: '_Tuple0'});
+	});
 var _user$project$Data_User$encodeUser = function (user) {
 	return _elm_lang$core$Json_Encode$object(
 		{
@@ -77,30 +83,6 @@ var _user$project$Data_User$getUsers = _elm_lang$http$Http$request(
 		timeout: _elm_lang$core$Maybe$Nothing,
 		withCredentials: false
 	});
-var _user$project$Data_User$postUser = function (body) {
-	return _elm_lang$http$Http$request(
-		{
-			method: 'POST',
-			headers: {ctor: '[]'},
-			url: A2(
-				_elm_lang$core$String$join,
-				'/',
-				{
-					ctor: '::',
-					_0: '',
-					_1: {
-						ctor: '::',
-						_0: 'user',
-						_1: {ctor: '[]'}
-					}
-				}),
-			body: _elm_lang$http$Http$jsonBody(
-				_user$project$Data_User$encodeUser(body)),
-			expect: _elm_lang$http$Http$expectJson(_user$project$Data_User$decodeUser),
-			timeout: _elm_lang$core$Maybe$Nothing,
-			withCredentials: false
-		});
-};
 var _user$project$Data_User$getUserById = function (capture_id) {
 	return _elm_lang$http$Http$request(
 		{

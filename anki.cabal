@@ -21,6 +21,7 @@ library
                      , DB
                      , Anki
                      , Anki.AnkiCard
+                     , Auth
   build-depends:       base >= 4.7 && < 5
                      , aeson
                      , binary
@@ -28,12 +29,15 @@ library
                      , containers >= 0.5.7
                      , vector
                      , cassava
+                     , time
                      , text
                      , split
                      , zlib
                      , stm
                      , bson
                      , servant-server
+                     , servant
+                     , jose-jwt
                      , elm-export
                      , wai
                      , wai-cors
@@ -61,10 +65,12 @@ executable elm-type
                      , Accounts.User
                      , Anki
                      , Anki.AnkiCard
+                     , Auth
   build-depends:       base
                      , anki
                      , aeson
                      , binary
+                     , wai
                      , bytestring
                      , containers
                      , vector
@@ -72,6 +78,8 @@ executable elm-type
                      , text
                      , stm
                      , servant-server
+                     , servant
+                     , jose-jwt
                      , elm-export
                      , servant-elm
   default-language:    Haskell2010

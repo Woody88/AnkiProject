@@ -21,8 +21,8 @@ type Route
 route : Parser (Route -> a) a
 route =
     oneOf
-        [ Url.map Home (s "")
-        , Url.map Login (s "login")
+        [ Url.map Login (s "")
+        , Url.map Home (s "home")
         , Url.map FlashCard (s "flashcard")
         , Url.map NewFlashCard (s "newflashcard")
         , Url.map FlashCardList (s "flashcards")
@@ -36,10 +36,10 @@ routeToString page =
         extras =
             case page of
                 Home ->
-                    [ "" ]
+                    [ "home" ]
 
                 Login ->
-                    [ "login" ]
+                    [ "" ]
 
                 FlashCard ->
                     [ "flashcard" ]
@@ -64,7 +64,7 @@ href route =
 fromLocation : Location -> Maybe Route
 fromLocation location =
     if (String.isEmpty location.hash) then
-        Just Home
+        Just Login
     else
         parseHash route location
 

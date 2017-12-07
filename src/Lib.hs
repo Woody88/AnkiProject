@@ -1,5 +1,14 @@
 {-# LANGUAGE DataKinds       #-}
 {-# LANGUAGE TypeOperators   #-}
+{-# LANGUAGE TypeFamilies          #-}
+{-# LANGUAGE DeriveGeneric              #-}
+{-# LANGUAGE FlexibleInstances          #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE MultiParamTypeClasses      #-}
+{-# LANGUAGE OverloadedStrings          #-}
+{-# LANGUAGE ScopedTypeVariables        #-}
+{-# LANGUAGE TemplateHaskell            #-}
+{-# LANGUAGE FlexibleContexts           #-}
 
 module Lib
     ( startApp
@@ -10,40 +19,55 @@ module Lib
 import Data.Aeson
 import Data.Aeson.TH
 import Data.Maybe (fromMaybe)
+import qualified Data.Time as Time
 import Network.Wai
 import Network.Wai.Middleware.Cors
 import Network.Wai.Handler.Warp
 import           Network.Wai.Logger       (withStdoutLogger)
 import Network.Wai.Middleware.RequestLogger (logStdoutDev)
 import Servant
+import Servant.Server
+import Servant.API.Experimental.Auth    (AuthProtect)
+import Accounts.User                     (UserLogin(..))
 import Servant.Utils.StaticFiles
 import System.Environment (lookupEnv)
 import DB (DB(..), initializeDB, getDB)
-import Accounts (UserServer, userServer)
-import Anki (AnkiServer, ankiServer)
+import Auth (Auth, Token(..), initializeJwt, initializeTokens, authServerContext)
+import Accounts (UserServer, LoginEndpoints, userServer)
+import Accounts.User (UserLogin(..))
+import Anki (AnkiServer, AnkiEndpoints, ankiServer)
 import System.IO
 import Data.List
 import Data.List.Split
 import Data.Map (Map)
 import qualified Data.Map.Lazy as Map
 
-type API = UserServer
-      :<|> AnkiServer
-      :<|> Raw
+
+
+type API =  "anki" :> Auth :> Protected
+        :<|> "login" :> Unprotected
+        :<|> Raw
+
+
+type Unprotected = LoginEndpoints
+type Protected   = AnkiEndpoints
 
 webRoot :: FilePath
 webRoot = "web/build/"
 
 startApp :: IO ()
-startApp = do
-    -- accounts <- putStrLn "Initializing Accounts..." >> initializeAccountsDB -- Set Memory DB for Accounts, later on will create a config file.
-    dbs <- initializeDB
-    portEnv    <- lookupEnv "PORT"
-    let port = read (fromMaybe "8080" portEnv) :: Int 
-    putStrLn "Server Running..." >> run  port (logStdoutDev $ app dbs)
+startApp =
+    withStdoutLogger $ \aplogger -> do
+        -- accounts <- putStrLn "Initializing Accounts..." >> initializeAccountsDB -- Set Memory DB for Accounts, later on will create a config file.
+        dbs          <- initializeDB
+        portEnv      <- lookupEnv "PORT"
+        _            <- initializeJwt
+        let port     = read (fromMaybe "8080" portEnv) :: Int
+            settings = setPort port $ setLogger aplogger defaultSettings
+        putStrLn ("Server Running on port: " ++ (show port)) >> (runSettings settings $ logStdoutDev $ app dbs)
 
 app :: DB -> Application
-app accDB = appCors $ serve api $ server accDB
+app dbs = appCors $ serveWithContext api authServerContext $ server dbs
 
 
 -- need to allow cors communication with elm
@@ -63,15 +87,26 @@ corsResourcePolicy =
         , corsIgnoreFailures = False
         }
 
+
+protected :: DB -> Token -> AnkiServer
+protected db t = ankiServer ankis t
+    where ankis    = ankiDB db
+          tokens   = tokenDB db
+
+
+unprotected :: DB -> UserServer
+unprotected db = userServer accounts tokens
+  where accounts = accountDB db
+        tokens   = tokenDB db
+
+
 api :: Proxy API
 api = Proxy
 
 server :: DB -> Server API
-server db = userServer accounts
-       :<|> ankiServer ankis
-       :<|> serveDirectoryFileServer webRoot
-    where accounts = accountDB db
-          ankis    = ankiDB db
+server dbs = protected dbs
+         :<|> unprotected dbs
+         :<|> serveDirectoryFileServer webRoot
 
 parser :: IO ()
 parser = do

@@ -1,3 +1,72 @@
-var _user$project$Data_Session$Session = function (a) {
-	return {user: a};
+var _user$project$Data_Session$encodeUserLogin = function (user) {
+	return _elm_lang$core$Json_Encode$object(
+		{
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: 'email',
+				_1: _elm_lang$core$Json_Encode$string(user.email)
+			},
+			_1: {
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'password',
+					_1: _elm_lang$core$Json_Encode$string(user.password)
+				},
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _user$project$Data_Session$JWT = function (a) {
+	return {token: a};
+};
+var _user$project$Data_Session$decodeJwt = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'token',
+	_elm_lang$core$Json_Decode$string,
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Data_Session$JWT));
+var _user$project$Data_Session$postLogin = function (body) {
+	return _elm_lang$http$Http$request(
+		{
+			method: 'POST',
+			headers: {ctor: '[]'},
+			url: A2(
+				_elm_lang$core$String$join,
+				'/',
+				{
+					ctor: '::',
+					_0: '',
+					_1: {
+						ctor: '::',
+						_0: 'login',
+						_1: {ctor: '[]'}
+					}
+				}),
+			body: _elm_lang$http$Http$jsonBody(
+				_user$project$Data_Session$encodeUserLogin(body)),
+			expect: _elm_lang$http$Http$expectJson(_user$project$Data_Session$decodeJwt),
+			timeout: _elm_lang$core$Maybe$Nothing,
+			withCredentials: false
+		});
+};
+var _user$project$Data_Session$Session = F2(
+	function (a, b) {
+		return {user: a, token: b};
+	});
+var _user$project$Data_Session$UserLogin = F2(
+	function (a, b) {
+		return {email: a, password: b};
+	});
+var _user$project$Data_Session$decodeUserLogin = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'password',
+	_elm_lang$core$Json_Decode$string,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'email',
+		_elm_lang$core$Json_Decode$string,
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_user$project$Data_Session$UserLogin)));
+var _user$project$Data_Session$Token = function (a) {
+	return {ctor: 'Token', _0: a};
 };

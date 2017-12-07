@@ -1,8 +1,22 @@
-var _user$project$Page_Login$initialModel = {errors: '', email: '', password: ''};
+var _user$project$Page_Login$initialModel = {errors: '', email: '', password: '', successPostPost: _elm_lang$core$Maybe$Nothing};
 var _user$project$Page_Login$_p0 = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('dreamwriter');
 var _user$project$Page_Login$id = _user$project$Page_Login$_p0.id;
 var _user$project$Page_Login$class = _user$project$Page_Login$_p0.$class;
 var _user$project$Page_Login$classList = _user$project$Page_Login$_p0.classList;
+var _user$project$Page_Login$Model = F4(
+	function (a, b, c, d) {
+		return {errors: a, email: b, password: c, successPostPost: d};
+	});
+var _user$project$Page_Login$SetSuccessPost = function (a) {
+	return {ctor: 'SetSuccessPost', _0: a};
+};
+var _user$project$Page_Login$SetPassword = function (a) {
+	return {ctor: 'SetPassword', _0: a};
+};
+var _user$project$Page_Login$SetEmail = function (a) {
+	return {ctor: 'SetEmail', _0: a};
+};
+var _user$project$Page_Login$Login = {ctor: 'Login'};
 var _user$project$Page_Login$form = A2(
 	_elm_lang$html$Html$form,
 	{
@@ -20,22 +34,34 @@ var _user$project$Page_Login$form = A2(
 		_0: _user$project$Views_Form$input(
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$placeholder('Email'),
-				_1: {ctor: '[]'}
+				_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_Login$SetEmail),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$placeholder('Email'),
+					_1: {ctor: '[]'}
+				}
 			}),
 		_1: {
 			ctor: '::',
 			_0: _user$project$Views_Form$password(
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$placeholder('Password'),
-					_1: {ctor: '[]'}
+					_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_Login$SetPassword),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$placeholder('Password'),
+						_1: {ctor: '[]'}
+					}
 				}),
 			_1: {
 				ctor: '::',
 				_0: A2(
 					_user$project$Views_Form$submit,
-					{ctor: '[]'},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Events$onClick(_user$project$Page_Login$Login),
+						_1: {ctor: '[]'}
+					},
 					'Login'),
 				_1: {ctor: '[]'}
 			}
@@ -45,21 +71,62 @@ var _user$project$Page_Login$view = F2(
 	function (session, model) {
 		return _user$project$Page_Login$form;
 	});
-var _user$project$Page_Login$Model = F3(
-	function (a, b, c) {
-		return {errors: a, email: b, password: c};
-	});
+var _user$project$Page_Login$SetToken = function (a) {
+	return {ctor: 'SetToken', _0: a};
+};
 var _user$project$Page_Login$NoOp = {ctor: 'NoOp'};
-var _user$project$Page_Login$No = {ctor: 'No'};
 var _user$project$Page_Login$update = F2(
 	function (msg, model) {
 		var _p1 = msg;
-		return {
-			ctor: '_Tuple2',
-			_0: A2(
-				_elm_lang$core$Platform_Cmd_ops['!'],
-				model,
-				{ctor: '[]'}),
-			_1: _user$project$Page_Login$No
-		};
+		switch (_p1.ctor) {
+			case 'SetPassword':
+				return A2(
+					_user$project$Util_ops['=>'],
+					A2(
+						_user$project$Util_ops['=>'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{password: _p1._0}),
+						_elm_lang$core$Platform_Cmd$none),
+					_user$project$Page_Login$NoOp);
+			case 'SetEmail':
+				return A2(
+					_user$project$Util_ops['=>'],
+					A2(
+						_user$project$Util_ops['=>'],
+						_elm_lang$core$Native_Utils.update(
+							model,
+							{email: _p1._0}),
+						_elm_lang$core$Platform_Cmd$none),
+					_user$project$Page_Login$NoOp);
+			case 'Login':
+				var p = A2(
+					_elm_lang$http$Http$send,
+					_user$project$Page_Login$SetSuccessPost,
+					_user$project$Data_Session$postLogin(
+						{email: model.email, password: model.password}));
+				return A2(
+					_user$project$Util_ops['=>'],
+					A2(_user$project$Util_ops['=>'], model, p),
+					_user$project$Page_Login$NoOp);
+			default:
+				if (_p1._0.ctor === 'Ok') {
+					var _p2 = _p1._0._0;
+					var d = A2(_elm_lang$core$Debug$log, 'user: ', _p2);
+					return A2(
+						_user$project$Util_ops['=>'],
+						A2(
+							_user$project$Util_ops['=>'],
+							model,
+							_user$project$Route$modifyUrl(_user$project$Route$Home)),
+						_user$project$Page_Login$SetToken(
+							_user$project$Data_Session$Token(_p2.token)));
+				} else {
+					var d = A2(_elm_lang$core$Debug$log, 'user: ', _p1._0._0);
+					return A2(
+						_user$project$Util_ops['=>'],
+						A2(_user$project$Util_ops['=>'], model, _elm_lang$core$Platform_Cmd$none),
+						_user$project$Page_Login$NoOp);
+				}
+		}
 	});

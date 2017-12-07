@@ -149,7 +149,8 @@ var _user$project$Main$init = F2(
 			{
 				pageState: _user$project$Main$Loaded(_user$project$Main$initialPage),
 				session: {
-					user: _user$project$Main$decodeUserFromJson(val)
+					user: _user$project$Main$decodeUserFromJson(val),
+					token: _elm_lang$core$Maybe$Nothing
 				}
 			});
 	});
@@ -238,6 +239,7 @@ var _user$project$Main$updatePage = F3(
 			do {
 				switch (_p10._0.ctor) {
 					case 'SetRoute':
+						var d = _elm_lang$core$Debug$log('Setting Route');
 						return A2(_user$project$Main$setRoute, _p10._0._0, model);
 					case 'FlashCardLoaded':
 						if (_p10._0._0.ctor === 'Ok') {
@@ -300,18 +302,29 @@ var _user$project$Main$updatePage = F3(
 								var msgFromPage = _p11._1;
 								var newModel = function () {
 									var _p12 = msgFromPage;
-									return model;
+									if (_p12.ctor === 'NoOp') {
+										return model;
+									} else {
+										var session = model.session;
+										return _elm_lang$core$Native_Utils.update(
+											model,
+											{
+												session: {
+													user: _elm_lang$core$Maybe$Nothing,
+													token: _elm_lang$core$Maybe$Just(_p12._0)
+												}
+											});
+									}
 								}();
-								return {
-									ctor: '_Tuple2',
-									_0: _elm_lang$core$Native_Utils.update(
+								return A2(
+									_user$project$Main_ops['=>'],
+									_elm_lang$core$Native_Utils.update(
 										newModel,
 										{
 											pageState: _user$project$Main$Loaded(
 												_user$project$Main$Login(pageModel))
 										}),
-									_1: A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$LoginMsg, cmd)
-								};
+									A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$LoginMsg, cmd));
 							case 'NotFound':
 								break _v6_6;
 							default:

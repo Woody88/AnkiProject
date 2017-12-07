@@ -3,6 +3,7 @@ module Data.AnkiCard exposing (..)
 import Json.Encode as Encode
 import Json.Decode exposing (..)
 import Json.Decode.Pipeline exposing (..)
+import Data.Session exposing (Token(..))
 import Http
 import String
 
@@ -43,17 +44,17 @@ decodeAnkiCard =
         |> required "property" string
 
 
-getAnkis : Http.Request (List AnkiCard)
-getAnkis =
+getAnkis : Token -> Http.Request (List AnkiCard)
+getAnkis (Token token)=
     Http.request
         { method =
             "GET"
         , headers =
-            []
+            [Http.header "Authorization" ("Bearer " ++ token) ]
         , url =
             String.join "/"
                 [ ""
-                , "ankis"
+                , "anki"
                 ]
         , body =
             Http.emptyBody

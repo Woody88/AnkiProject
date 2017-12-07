@@ -2,7 +2,7 @@ module Page.FlashCard exposing (..)
 
 import Data.Card as Card exposing (Card)
 import Data.AnkiCard as AnkiCard exposing (AnkiCard, getAnkis, getAnkiByCardId, postAnkis, putAnkiByCardId)
-import Data.Session as Session exposing (Session)
+import Data.Session as Session exposing (Session, Token(..))
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -61,19 +61,32 @@ initialModel =
 init : Session -> Bool -> Task PageLoadError Model
 init session listview =
     let
-        loadAnkis =
-            (AnkiCard.getAnkis)
+        d = Debug.log "session" session
+        token = withDefault (Token "") session.token
+        loadAnki =
+            (AnkiCard.getAnkis token)
                 |> Http.toTask
 
         toModel cardList =
             { initialModel | cards = cardList, listView = listview }
 
-        handleLoadError _ =
-            pageLoadError Page.FlashCard "FlashCard is currently unavailable."
+        handleLoadError message _ =
+            pageLoadError Page.FlashCard message
     in
-        loadAnkis
-            |> Task.map toModel
-            |> Task.mapError handleLoadError
+        case session.token of
+            Nothing ->
+                    Task.fail initialModel
+                    |> Task.map toModel
+                    |> Task.mapError (handleLoadError "Please Sign In.")
+
+            Just token ->
+                    loadAnki
+                    |> Task.map toModel
+                    |> Task.mapError (handleLoadError "FlashCard is currently unavailable.")
+
+
+
+
 
 
 emptyCard : AnkiCard
@@ -96,6 +109,7 @@ initCardList =
 initEditCard : Session -> Int -> Task PageLoadError Model
 initEditCard session cardId =
     let
+        d = Debug.log "session" session
         loadAnki =
             (AnkiCard.getAnkiByCardId cardId)
                 |> Http.toTask
@@ -103,12 +117,21 @@ initEditCard session cardId =
         toModel card =
             { initialModel | newCard = card, editView = True }
 
-        handleLoadError _ =
-            pageLoadError Page.FlashCard "FlashCard is currently unavailable."
+        handleLoadError message _ =
+            pageLoadError Page.FlashCard message
     in
-        loadAnki
-            |> Task.map toModel
-            |> Task.mapError handleLoadError
+        case session.token of
+            Nothing ->
+                    Task.fail initialModel
+                    |> Task.map toModel
+                    |> Task.mapError (handleLoadError "Please Sign In.")
+
+            Just token ->
+                    loadAnki
+                    |> Task.map toModel
+                    |> Task.mapError (handleLoadError "FlashCard is currently unavailable.")
+
+
 
 
 initNewCard : Model

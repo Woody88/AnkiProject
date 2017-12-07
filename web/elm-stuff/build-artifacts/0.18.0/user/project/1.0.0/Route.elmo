@@ -5,13 +5,13 @@ var _user$project$Route$routeToString = function (page) {
 			case 'Home':
 				return {
 					ctor: '::',
-					_0: '',
+					_0: 'home',
 					_1: {ctor: '[]'}
 				};
 			case 'Login':
 				return {
 					ctor: '::',
-					_0: 'login',
+					_0: '',
 					_1: {ctor: '[]'}
 				};
 			case 'FlashCard':
@@ -69,14 +69,14 @@ var _user$project$Route$route = _evancz$url_parser$UrlParser$oneOf(
 		ctor: '::',
 		_0: A2(
 			_evancz$url_parser$UrlParser$map,
-			_user$project$Route$Home,
+			_user$project$Route$Login,
 			_evancz$url_parser$UrlParser$s('')),
 		_1: {
 			ctor: '::',
 			_0: A2(
 				_evancz$url_parser$UrlParser$map,
-				_user$project$Route$Login,
-				_evancz$url_parser$UrlParser$s('login')),
+				_user$project$Route$Home,
+				_evancz$url_parser$UrlParser$s('home')),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -112,5 +112,5 @@ var _user$project$Route$route = _evancz$url_parser$UrlParser$oneOf(
 		}
 	});
 var _user$project$Route$fromLocation = function (location) {
-	return _elm_lang$core$String$isEmpty(location.hash) ? _elm_lang$core$Maybe$Just(_user$project$Route$Home) : A2(_evancz$url_parser$UrlParser$parseHash, _user$project$Route$route, location);
+	return _elm_lang$core$String$isEmpty(location.hash) ? _elm_lang$core$Maybe$Just(_user$project$Route$Login) : A2(_evancz$url_parser$UrlParser$parseHash, _user$project$Route$route, location);
 };

@@ -3,7 +3,7 @@ module Main exposing (..)
 -- import Page.Home as Home
 
 import Page.Login as Login
-import Data.Session as Session exposing (Session)
+import Data.Session as Session exposing (Session, Token(..))
 import Route exposing (Route)
 import Navigation exposing (..)
 import Task
@@ -16,6 +16,7 @@ import Page.Login as Login
 import Page.Home as Home
 import Page.FlashCard as FlashCard
 import Views.Page as Page exposing (ActivePage)
+import Util exposing ((=>))
 import Debug
 
 
@@ -47,6 +48,9 @@ type alias Model =
     , pageState : PageState
     }
 
+initialPage : Page
+initialPage =
+    Login Login.initialModel
 
 init : Value -> Location -> ( Model, Cmd Msg )
 init val location =
@@ -56,7 +60,7 @@ init val location =
     in
         setRoute (Route.fromLocation location)
             { pageState = Loaded initialPage
-            , session = { user = decodeUserFromJson val }
+            , session = { user = decodeUserFromJson val, token = Nothing }
             }
 
 
@@ -107,12 +111,6 @@ viewPage session isLoading page =
 
         Errored subModel ->
             Errored.view session subModel
-
-
-initialPage : Page
-initialPage =
-    Login Login.initialModel
-
 
 getPage : PageState -> Page
 getPage pageState =
@@ -214,7 +212,9 @@ updatePage page msg model =
     in
         case ( msg, page ) of
             ( SetRoute route, _ ) ->
-                setRoute route model
+                let
+                    d = Debug.log "Setting Route"
+                in setRoute route model
 
             ( FlashCardLoaded (Ok subModel), _ ) ->
                 { model | pageState = Loaded (FlashCard subModel) } => Cmd.none
@@ -227,7 +227,13 @@ updatePage page msg model =
 
             ( FlashCardMsg subMsg, FlashCard subModel ) ->
                 toPage FlashCard FlashCardMsg (FlashCard.update session) subMsg subModel
-
+            --
+            -- ( LoginMsg subMsg, Login subModel ) ->
+            --     let
+            --         ( pageModel, cmd ) =
+            --             Login.update subMsg subModel
+            --     in
+            --         ( { model | pageState = Loaded (Login pageModel) }, Cmd.map LoginMsg cmd )
             ( LoginMsg subMsg, Login subModel ) ->
                 let
                     ( ( pageModel, cmd ), msgFromPage ) =
@@ -235,10 +241,18 @@ updatePage page msg model =
 
                     newModel =
                         case msgFromPage of
-                            Login.No ->
+                            Login.NoOp ->
                                 model
+
+                            Login.SetToken token ->
+                                let
+                                    session =
+                                        model.session
+                                in
+                                { model | session = { user = Nothing, token = Just token } }
                 in
-                    ( { newModel | pageState = Loaded (Login pageModel) }, Cmd.map LoginMsg cmd )
+                    { newModel | pageState = Loaded (Login pageModel) }
+                    => Cmd.map LoginMsg cmd
 
             ( _, NotFound ) ->
                 -- Disregard incoming messages when we're on the

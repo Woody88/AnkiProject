@@ -1,0 +1,37 @@
+var _simonh1000$elm_jwt$Jwt_Decoders$andMap = _elm_lang$core$Json_Decode$map2(
+	F2(
+		function (x, y) {
+			return y(x);
+		}));
+var _simonh1000$elm_jwt$Jwt_Decoders$JwtToken = F4(
+	function (a, b, c, d) {
+		return {iat: a, exp: b, userId: c, email: d};
+	});
+var _simonh1000$elm_jwt$Jwt_Decoders$firebase = A2(
+	_simonh1000$elm_jwt$Jwt_Decoders$andMap,
+	_elm_lang$core$Json_Decode$maybe(
+		A2(_elm_lang$core$Json_Decode$field, 'email', _elm_lang$core$Json_Decode$string)),
+	A2(
+		_simonh1000$elm_jwt$Jwt_Decoders$andMap,
+		_elm_lang$core$Json_Decode$maybe(
+			A2(_elm_lang$core$Json_Decode$field, 'user_id', _elm_lang$core$Json_Decode$string)),
+		A2(
+			_simonh1000$elm_jwt$Jwt_Decoders$andMap,
+			A2(_elm_lang$core$Json_Decode$field, 'exp', _elm_lang$core$Json_Decode$int),
+			A2(
+				_simonh1000$elm_jwt$Jwt_Decoders$andMap,
+				A2(_elm_lang$core$Json_Decode$field, 'iat', _elm_lang$core$Json_Decode$int),
+				_elm_lang$core$Json_Decode$succeed(_simonh1000$elm_jwt$Jwt_Decoders$JwtToken)))));
+var _simonh1000$elm_jwt$Jwt_Decoders$phoenixGuardian = A2(
+	_simonh1000$elm_jwt$Jwt_Decoders$andMap,
+	_elm_lang$core$Json_Decode$succeed(_elm_lang$core$Maybe$Nothing),
+	A2(
+		_simonh1000$elm_jwt$Jwt_Decoders$andMap,
+		_elm_lang$core$Json_Decode$succeed(_elm_lang$core$Maybe$Nothing),
+		A2(
+			_simonh1000$elm_jwt$Jwt_Decoders$andMap,
+			A2(_elm_lang$core$Json_Decode$field, 'exp', _elm_lang$core$Json_Decode$int),
+			A2(
+				_simonh1000$elm_jwt$Jwt_Decoders$andMap,
+				A2(_elm_lang$core$Json_Decode$field, 'iat', _elm_lang$core$Json_Decode$int),
+				_elm_lang$core$Json_Decode$succeed(_simonh1000$elm_jwt$Jwt_Decoders$JwtToken)))));
