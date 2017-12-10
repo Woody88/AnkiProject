@@ -45,6 +45,8 @@ defaultConfig = do
     (Just publicKey)  <- lookupEnv "PublicKey"
     port              <- lookupSetting "PORT" 8080
     env               <- Configs.lookupSetting "ENV" Development
+    putStrLn ("privateKey: " ++ privateKey)
+    putStrLn ("publicKey: " ++ publicKey)
     return $ Config
                 { getEnv  = env
                 , port    = port
@@ -81,6 +83,8 @@ initializeJwt = do
   (kPub, kPr) <- generateRsaKeyPair 512 (KeyId "") Enc Nothing
   let privateKey = TL.unpack $ T.decodeUtf8 $ A.encode kPr
       publicKey  = TL.unpack $ T.decodeUtf8 $ A.encode kPub
+  putStrLn ("privateKey: " ++ privateKey)
+  putStrLn ("publicKey: " ++ publicKey)
   setEnv "PrivateKey" privateKey >> setEnv "PublicKey" publicKey
 
 
