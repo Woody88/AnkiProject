@@ -7,13 +7,12 @@ module Lib
     , AppEnv(..)
     ) where
 
-
 import Network.Wai
 import Network.Wai.Middleware.Cors
 import Network.Wai.Handler.Warp
 import Network.Wai.Logger       (withStdoutLogger)
 import Network.Wai.Middleware.RequestLogger (logStdoutDev)
-import Network.Wai.Handler.WarpTLS   (runTLS, tlsSettings)
+import Network.Wai.Handler.WarpTLS   (runTLS, tlsSettings, tlsSettingsMemory)
 import Servant
 import Servant.API.Experimental.Auth    (AuthProtect)
 import Accounts.User                     (UserLogin(..))
@@ -47,15 +46,20 @@ startApp =
     appEnv <- initializeApp >> initializeApp
     let port     = serverPort appEnv
         logger   = serverLogs appEnv
+        tlsCrt   = serverC appEnv
+        tlsKey   = serverK appEnv
         settings = setPort port $ setLogger aplogger defaultSettings
     putStrLn $ serverMessage appEnv
     case env appEnv of
-        Production -> runTLS (tlsSettings "server.crt" "server.key") settings $ logger $ app appEnv
+        Production -> runTLS (tlsSettingsMemory tlsCrt tlsKey) settings $ logger $ app appEnv
         _          -> runSettings settings $ logger $ app appEnv
     where serverPort    = port . configs
           serverLogs    = logger . configs
           env           = getEnv . configs
+          serverK       = serverKey . configs
+          serverC       = serverCrt . configs
           serverMessage env = "Server Running on port: " ++ (show $ serverPort env)
+
 
 
 initializeApp :: IO AppEnv
