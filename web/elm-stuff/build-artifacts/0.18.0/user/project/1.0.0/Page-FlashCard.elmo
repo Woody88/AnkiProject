@@ -26,7 +26,7 @@ var _user$project$Page_FlashCard$initialModel = {
 var _user$project$Page_FlashCard$init = F2(
 	function (session, listview) {
 		var handleLoadError = F2(
-			function (message, _p0) {
+			function (message, msg) {
 				return A2(_user$project$Page_Errored$pageLoadError, _user$project$Views_Page$FlashCard, message);
 			});
 		var toModel = function (cardList) {
@@ -41,8 +41,8 @@ var _user$project$Page_FlashCard$init = F2(
 		var loadAnki = _elm_lang$http$Http$toTask(
 			_user$project$Data_AnkiCard$getAnkis(token));
 		var d = A2(_elm_lang$core$Debug$log, 'session', session);
-		var _p1 = session.token;
-		if (_p1.ctor === 'Nothing') {
+		var _p0 = session.token;
+		if (_p0.ctor === 'Nothing') {
 			return A2(
 				_elm_lang$core$Task$mapError,
 				handleLoadError('Please Sign In.'),
@@ -63,7 +63,7 @@ var _user$project$Page_FlashCard$initCardList = _elm_lang$core$Native_Utils.upda
 var _user$project$Page_FlashCard$initEditCard = F2(
 	function (session, cardId) {
 		var handleLoadError = F2(
-			function (message, _p2) {
+			function (message, msg) {
 				return A2(_user$project$Page_Errored$pageLoadError, _user$project$Views_Page$FlashCard, message);
 			});
 		var toModel = function (card) {
@@ -71,11 +71,14 @@ var _user$project$Page_FlashCard$initEditCard = F2(
 				_user$project$Page_FlashCard$initialModel,
 				{newCard: card, editView: true});
 		};
+		var token = A2(
+			_elm_lang$core$Maybe$withDefault,
+			_user$project$Data_Session$Token(''),
+			session.token);
 		var loadAnki = _elm_lang$http$Http$toTask(
-			_user$project$Data_AnkiCard$getAnkiByCardId(cardId));
-		var d = A2(_elm_lang$core$Debug$log, 'session', session);
-		var _p3 = session.token;
-		if (_p3.ctor === 'Nothing') {
+			A2(_user$project$Data_AnkiCard$getAnkiByCardId, token, cardId));
+		var _p1 = session.token;
+		if (_p1.ctor === 'Nothing') {
 			return A2(
 				_elm_lang$core$Task$mapError,
 				handleLoadError('Please Sign In.'),
@@ -98,10 +101,10 @@ var _user$project$Page_FlashCard$initNewCard = function () {
 			newCard: _elm_lang$core$Maybe$Just(card)
 		});
 }();
-var _user$project$Page_FlashCard$_p4 = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('dreamwriter');
-var _user$project$Page_FlashCard$id = _user$project$Page_FlashCard$_p4.id;
-var _user$project$Page_FlashCard$class = _user$project$Page_FlashCard$_p4.$class;
-var _user$project$Page_FlashCard$classList = _user$project$Page_FlashCard$_p4.classList;
+var _user$project$Page_FlashCard$_p2 = _rtfeldman$elm_css_helpers$Html_CssHelpers$withNamespace('dreamwriter');
+var _user$project$Page_FlashCard$id = _user$project$Page_FlashCard$_p2.id;
+var _user$project$Page_FlashCard$class = _user$project$Page_FlashCard$_p2.$class;
+var _user$project$Page_FlashCard$classList = _user$project$Page_FlashCard$_p2.classList;
 var _user$project$Page_FlashCard$listView = F2(
 	function (session, model) {
 		return A2(
@@ -131,15 +134,19 @@ var _user$project$Page_FlashCard$SetSuccessPost = function (a) {
 var _user$project$Page_FlashCard$update = F3(
 	function (session, msg, model) {
 		var card = function () {
-			var _p5 = model.newCard;
-			if (_p5.ctor === 'Just') {
-				return _p5._0;
+			var _p3 = model.newCard;
+			if (_p3.ctor === 'Just') {
+				return _p3._0;
 			} else {
 				return _user$project$Page_FlashCard$emptyCard;
 			}
 		}();
-		var _p6 = msg;
-		switch (_p6.ctor) {
+		var token = A2(
+			_elm_lang$core$Maybe$withDefault,
+			_user$project$Data_Session$Token(''),
+			session.token);
+		var _p4 = msg;
+		switch (_p4.ctor) {
 			case 'NoOp':
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
@@ -148,7 +155,7 @@ var _user$project$Page_FlashCard$update = F3(
 			case 'SetContentEn':
 				var c = _elm_lang$core$Native_Utils.update(
 					card,
-					{contentEn: _p6._0});
+					{contentEn: _p4._0});
 				var newModel = _elm_lang$core$Native_Utils.update(
 					model,
 					{
@@ -161,7 +168,7 @@ var _user$project$Page_FlashCard$update = F3(
 			case 'SetContentKanji':
 				var c = _elm_lang$core$Native_Utils.update(
 					card,
-					{contentJpKanji: _p6._0});
+					{contentJpKanji: _p4._0});
 				var newModel = _elm_lang$core$Native_Utils.update(
 					model,
 					{
@@ -174,7 +181,7 @@ var _user$project$Page_FlashCard$update = F3(
 			case 'SetContentHirag':
 				var c = _elm_lang$core$Native_Utils.update(
 					card,
-					{contentJp: _p6._0});
+					{contentJp: _p4._0});
 				var newModel = _elm_lang$core$Native_Utils.update(
 					model,
 					{
@@ -187,7 +194,7 @@ var _user$project$Page_FlashCard$update = F3(
 			case 'SetContextEn':
 				var c = _elm_lang$core$Native_Utils.update(
 					card,
-					{contextEn: _p6._0});
+					{contextEn: _p4._0});
 				var newModel = _elm_lang$core$Native_Utils.update(
 					model,
 					{
@@ -200,7 +207,7 @@ var _user$project$Page_FlashCard$update = F3(
 			case 'SetContextJp':
 				var c = _elm_lang$core$Native_Utils.update(
 					card,
-					{contextJP: _p6._0});
+					{contextJP: _p4._0});
 				var newModel = _elm_lang$core$Native_Utils.update(
 					model,
 					{
@@ -213,7 +220,7 @@ var _user$project$Page_FlashCard$update = F3(
 			case 'SetProperty':
 				var c = _elm_lang$core$Native_Utils.update(
 					card,
-					{property: _p6._0});
+					{property: _p4._0});
 				var newModel = _elm_lang$core$Native_Utils.update(
 					model,
 					{
@@ -227,7 +234,9 @@ var _user$project$Page_FlashCard$update = F3(
 				var p = A2(
 					_elm_lang$http$Http$send,
 					_user$project$Page_FlashCard$SetSuccessPost,
-					_user$project$Data_AnkiCard$postAnkis(
+					A2(
+						_user$project$Data_AnkiCard$postAnkis,
+						token,
 						A2(_elm_lang$core$Maybe$withDefault, _user$project$Page_FlashCard$emptyCard, model.newCard)));
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
@@ -238,13 +247,13 @@ var _user$project$Page_FlashCard$update = F3(
 						_1: {ctor: '[]'}
 					});
 			case 'UpdateAnki':
-				var _p7 = model.newCard;
-				if (_p7.ctor === 'Just') {
-					var _p8 = _p7._0;
+				var _p5 = model.newCard;
+				if (_p5.ctor === 'Just') {
+					var _p6 = _p5._0;
 					var p = A2(
 						_elm_lang$http$Http$send,
 						_user$project$Page_FlashCard$SetSuccessEdit,
-						A2(_user$project$Data_AnkiCard$putAnkiByCardId, _p8.cardId, _p8));
+						A3(_user$project$Data_AnkiCard$putAnkiByCardId, token, _p6.cardId, _p6));
 					return A2(
 						_elm_lang$core$Platform_Cmd_ops['!'],
 						model,
@@ -265,7 +274,7 @@ var _user$project$Page_FlashCard$update = F3(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							successEdit: _elm_lang$core$Maybe$Just(_p6._0)
+							successEdit: _elm_lang$core$Maybe$Just(_p4._0)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -275,7 +284,7 @@ var _user$project$Page_FlashCard$update = F3(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							successPostPost: _elm_lang$core$Maybe$Just(_p6._0)
+							successPostPost: _elm_lang$core$Maybe$Just(_p4._0)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -436,8 +445,8 @@ var _user$project$Page_FlashCard$view = F2(
 		if (model.listView) {
 			return A2(_user$project$Page_FlashCard$listView, session, model);
 		} else {
-			var _p9 = model.newCard;
-			if (_p9.ctor === 'Nothing') {
+			var _p7 = model.newCard;
+			if (_p7.ctor === 'Nothing') {
 				return A2(
 					_elm_lang$html$Html$div,
 					{
@@ -525,7 +534,7 @@ var _user$project$Page_FlashCard$view = F2(
 			} else {
 				return A2(
 					_user$project$Page_FlashCard$newCardForm,
-					_p9._0,
+					_p7._0,
 					model.editView ? _user$project$Page_FlashCard$UpdateAnki : _user$project$Page_FlashCard$SubmitNewAnki);
 			}
 		}

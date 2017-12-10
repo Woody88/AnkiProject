@@ -6,8 +6,10 @@
 
 module Accounts where
 
--- , createUser, getUser, loginUser,
-import Prelude
+
+import Control.Monad.Reader
+import App
+import Configs
 import Accounts.User                      (User(..), UserLogin(..), Accounts, users, createUser, getUser, initializeAccounts)
 import Servant
 import Servant.Server                     (err401)
@@ -17,10 +19,11 @@ import GHC.Generics (Generic)
 import Data.Aeson
 import Data.Aeson.TH
 import Auth                               (Token(..), Tokens, issueToken)
+import           Jose.Jwk                             (Jwk(..))
 
 type UserServer = Server LoginEndpoints
-type AccountDB = Accounts
 
+type AccountDB = Accounts
 
 type LoginEndpoints =  ReqBody '[JSON] UserLogin
                        :> Post '[JSON] Token
@@ -31,19 +34,21 @@ type LoginEndpoints =  ReqBody '[JSON] UserLogin
            -- :<|> "login" :> ReqBody '[JSON] UserLogin :> Post '[JSON] (Maybe User)
 
 
-userServer :: AccountDB -> Tokens -> UserServer
-userServer accDB  tokenDB  =  login accDB tokenDB
+userServer :: Config -> AccountDB -> Tokens -> UserServer
+userServer cfg accDB  tokenDB = login'
+    where login' u = returnH cfg $ login accDB tokenDB u
 
-
-login :: AccountDB -> Tokens -> UserLogin -> Handler Token
+login :: AccountDB -> Tokens -> UserLogin -> AppH Token
 login a t  u = do
   liftIO $ putStrLn (email u)
   verifyLogin a t u
 
-verifyLogin :: Accounts -> Tokens -> UserLogin -> Handler Token
-verifyLogin accDB tokenDB (UserLogin email password) =
+verifyLogin :: Accounts -> Tokens -> UserLogin -> AppH Token
+verifyLogin accDB tokenDB (UserLogin email password) = do
+  configs <- ask
+  let (Just publicKey) = pubKey configs
   if (email == "wdelhia" && password == "password")
-  then issueToken tokenDB email
+  then issueToken publicKey tokenDB email
   else throwError (err401 { errBody = "Invalid User" })
 
 initializeAccountsDB :: IO AccountDB

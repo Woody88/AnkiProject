@@ -50,7 +50,7 @@ getAnkis (Token token)=
         { method =
             "GET"
         , headers =
-            [Http.header "Authorization" ("Bearer " ++ token) ]
+            [Http.header "Authorization" ("Bearer " ++ token)]
         , url =
             String.join "/"
                 [ ""
@@ -67,13 +67,13 @@ getAnkis (Token token)=
         }
 
 
-postAnkis : AnkiCard -> Http.Request AnkiCard
-postAnkis body =
+postAnkis : Token -> AnkiCard -> Http.Request AnkiCard
+postAnkis (Token token) body =
     Http.request
         { method =
             "POST"
         , headers =
-            []
+            [Http.header "Authorization" ("Bearer " ++ token)]
         , url =
             String.join "/"
                 [ ""
@@ -90,13 +90,13 @@ postAnkis body =
         }
 
 
-getAnkiByCardId : Int -> Http.Request (Maybe AnkiCard)
-getAnkiByCardId capture_cardId =
+getAnkiByCardId : Token -> Int -> Http.Request (Maybe AnkiCard)
+getAnkiByCardId (Token token) capture_cardId =
     Http.request
         { method =
             "GET"
         , headers =
-            []
+            [Http.header "Authorization" ("Bearer " ++ token)]
         , url =
             String.join "/"
                 [ ""
@@ -114,13 +114,13 @@ getAnkiByCardId capture_cardId =
         }
 
 
-putAnkiByCardId : Int -> AnkiCard -> Http.Request (Maybe AnkiCard)
-putAnkiByCardId capture_cardId body =
+putAnkiByCardId : Token -> Int -> AnkiCard -> Http.Request (Maybe AnkiCard)
+putAnkiByCardId (Token token) capture_cardId body =
     Http.request
         { method =
             "PUT"
         , headers =
-            []
+            [Http.header "Authorization" ("Bearer " ++ token)]
         , url =
             String.join "/"
                 [ ""

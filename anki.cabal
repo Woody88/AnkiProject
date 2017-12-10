@@ -22,6 +22,7 @@ library
                      , Anki
                      , Anki.AnkiCard
                      , Auth
+                     , Configs
   build-depends:       base >= 4.7 && < 5
                      , aeson
                      , binary
@@ -29,11 +30,14 @@ library
                      , containers >= 0.5.7
                      , vector
                      , cassava
+                     , monad-logger
                      , time
                      , text
                      , split
                      , zlib
                      , stm
+                     , mtl
+                     , either
                      , bson
                      , servant-server
                      , servant

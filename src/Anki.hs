@@ -13,7 +13,9 @@ import qualified Data.Vector as V
 import Auth (Token(..))
 
 type AnkiDB = AnkiCards
+
 type AnkiServer = Server AnkiEndpoints
+
 type AnkiEndpoints =  Get '[JSON] [AnkiCard]
          :<|>  ReqBody '[JSON] AnkiCard :> Post '[JSON] AnkiCard
          :<|>  Capture "cardId" CardID  :> Get '[JSON] (Maybe AnkiCard)

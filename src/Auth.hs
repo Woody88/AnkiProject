@@ -10,9 +10,17 @@
 {-# LANGUAGE UndecidableInstances  #-}
 {-# LANGUAGE TemplateHaskell       #-}
 
-module Auth (Auth, Token(..), Tokens, initializeJwt, authHandler, initializeTokens, authServerContext, issueToken) where
---
+module Auth
+  ( Auth
+  , Token(..)
+  , Tokens
+  , authHandler
+  , initializeTokens
+  , authServerContext
+  , issueToken) where
+
 import Control.Monad.IO.Class         (liftIO)
+import Control.Monad.Reader           (ask, local)
 import GHC.Generics (Generic)
 import Data.Aeson                          as A
 import Data.Aeson.TH
@@ -20,7 +28,6 @@ import qualified Control.Concurrent.STM    as T
 import qualified Data.Map.Lazy             as Map
 import qualified Data.ByteString.Char8     as C
 import qualified Data.ByteString.Lazy      as B
-import Data.ByteString.Internal         (unpackBytes)
 import qualified Data.List                 as L
 import Data.Text                        (pack, unpack)
 import Data.Text.Encoding               (decodeUtf8)
@@ -34,13 +41,14 @@ import Servant.Server                   (Handler, ServantErr(..),Context ((:.), 
 import Servant.API.Experimental.Auth    (AuthProtect)
 import Servant.Server.Experimental.Auth (AuthHandler, AuthServerData,
                                          mkAuthHandler)
+import System.Environment               (lookupEnv)
 import Accounts.User                    (UserLogin(..))
-import GHC.Word (Word8)
-import System.Environment               (setEnv, lookupEnv)
 import Jose.Jwe
 import Jose.Jwa
 import Jose.Jwk (Jwk(..), generateRsaKeyPair, generateSymmetricKey, KeyUse(Enc), KeyId)
 import Jose.Jwt
+import App
+import Configs
 
 type Auth = AuthProtect "jwt-auth"
 
@@ -65,7 +73,6 @@ tokens tksThread = do
   tks <- liftIO $ (T.atomically . T.readTMVar) tksThread
   return $ Map.toList tks
 
-
 createToken :: Tokens -> String -> Handler JWT
 createToken tksThread usr = do
   tokens <- liftIO $ (T.atomically . T.takeTMVar) tksThread
@@ -80,45 +87,35 @@ getToken tksThread usr = do
   tks <- liftIO $ (T.atomically . T.readTMVar) tksThread
   return $ Map.lookup (KeyId $ pack usr) tks
 
-issueToken :: Tokens -> String -> Handler Token
-issueToken tks email = do
-  (Just pbEncode)  <- liftIO $ lookupEnv "PublicKey"
-  let (Just publicKey) = A.decode (strToWord8s pbEncode) :: Maybe Jwk
-  Right (Jwt jwt) <- liftIO $ jwkEncode RSA_OAEP A128GCM publicKey (Claims "random claim")
+issueToken :: Jwk -> Tokens -> String -> AppH Token
+issueToken publicKey tks email = do
+  Right (Jwt jwt) <- liftIO $ jwkEncode RSA_OAEP A128GCM publicKey (Claims "my claim")
   return $ (Token $ C.unpack jwt)
 
-authHandler :: AuthHandler Request Token
-authHandler =
- let handler req = case lookup "Authorization" (requestHeaders req) of
+authHandler :: Config -> AuthHandler Request Token
+authHandler cfg = mkAuthHandler (\r -> returnH cfg $ authHandler' r)
+
+authHandler' :: Request -> AppH Token
+authHandler' req = do
+  config <- ask
+  let (Just privateKey) = privKey config
+      handler req' = case lookup "Authorization" (requestHeaders req) of
        Nothing -> throwError (err401 { errBody = "Missing auth header" })
        Just authKey ->
         case stripBearer $ C.unpack authKey of
           Nothing -> throwError (err401 { errBody = "Header Malformatted" })
-          Just key -> verifyToken (C.pack key)
- in mkAuthHandler handler
- where stripBearer = stripPrefix "Bearer "
+          Just key -> verifyToken privateKey (C.pack key)
+  handler req
+  where stripBearer = stripPrefix "Bearer "
 
-verifyToken :: C.ByteString -> Handler Token
-verifyToken jwt = do
-  (Just privEncode)  <- liftIO $ lookupEnv "PrivateKey"
-  let (Just privateKey) = A.decode (strToWord8s privEncode) :: Maybe Jwk
+
+verifyToken :: Jwk -> C.ByteString -> AppH Token
+verifyToken privateKey jwt = do
   token <- liftIO $ jwkDecode privateKey jwt
   let verified = case token of
                    Right (Jwe (hdr, claims)) -> return $ (Token (C.unpack jwt))
                    _                         -> throwError (err403 { errBody = "Invalid Token" })
   verified
 
---Right (Jwt jwt) <- jwkEncode RSA_OAEP A128GCM kPub (Claims "secret claims")
-authServerContext :: Context (AuthHandler Request Token ': '[])
-authServerContext = authHandler :. EmptyContext
-
-initializeJwt :: IO ()
-initializeJwt = do
-  (kPub, kPr) <- generateRsaKeyPair 512 (KeyId "") Enc Nothing
-  let privateKey = TL.unpack $ T.decodeUtf8 $ A.encode kPr
-      publicKey  = TL.unpack $ T.decodeUtf8 $ A.encode kPub
-  setEnv "PrivateKey" privateKey
-  setEnv "PublicKey" publicKey
-
-strToWord8s :: String -> B.ByteString
-strToWord8s = B.pack . unpackBytes . C.pack
+authServerContext :: Config -> Context (AuthHandler Request Token ': '[])
+authServerContext cfg = (authHandler cfg) :. EmptyContext

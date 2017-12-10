@@ -70,8 +70,8 @@ init session listview =
         toModel cardList =
             { initialModel | cards = cardList, listView = listview }
 
-        handleLoadError message _ =
-            pageLoadError Page.FlashCard message
+        handleLoadError message msg =
+                pageLoadError Page.FlashCard message
     in
         case session.token of
             Nothing ->
@@ -109,15 +109,15 @@ initCardList =
 initEditCard : Session -> Int -> Task PageLoadError Model
 initEditCard session cardId =
     let
-        d = Debug.log "session" session
+        token = withDefault (Token "") session.token
         loadAnki =
-            (AnkiCard.getAnkiByCardId cardId)
+            (AnkiCard.getAnkiByCardId token cardId)
                 |> Http.toTask
 
         toModel card =
             { initialModel | newCard = card, editView = True }
 
-        handleLoadError message _ =
+        handleLoadError message msg =
             pageLoadError Page.FlashCard message
     in
         case session.token of
@@ -207,6 +207,7 @@ view session model =
 update : Session -> Msg -> Model -> ( Model, Cmd Msg )
 update session msg model =
     let
+        token = withDefault (Token "") session.token
         card =
             case model.newCard of
                 Just c ->
@@ -282,7 +283,7 @@ update session msg model =
             SubmitNewAnki ->
                 let
                     p =
-                        postAnkis (withDefault emptyCard model.newCard)
+                        postAnkis token (withDefault emptyCard model.newCard)
                             |> Http.send SetSuccessPost
                 in
                     model ! [ p ]
@@ -292,7 +293,7 @@ update session msg model =
                     Just c ->
                         let
                             p =
-                                putAnkiByCardId c.cardId c
+                                putAnkiByCardId token c.cardId c
                                     |> Http.send SetSuccessEdit
                         in
                             model ! [ p ]
