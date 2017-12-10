@@ -1,6 +1,7 @@
 {-# LANGUAGE DataKinds         #-}
 {-# LANGUAGE TypeOperators     #-}
 {-# LANGUAGE OverloadedStrings #-}
+
 module Lib
     ( startApp
     , initializeApp
@@ -48,11 +49,9 @@ startApp =
         logger   = serverLogs appEnv
         tlsCrt   = serverC appEnv
         tlsKey   = serverK appEnv
-        settings = setPort port $ setLogger aplogger (setServerName "https://ankiapp.herokuapp.com" defaultSettings)
+        settings = setPort port $ setLogger aplogger defaultSettings
     putStrLn $ serverMessage appEnv
-    case env appEnv of
-        Production -> runTLS (tlsSettingsMemory tlsCrt tlsKey) settings $ logger $ app appEnv
-        _          -> runSettings settings $ logger $ app appEnv
+    runSettings settings $ logger $ app appEnv
     where serverPort    = port . configs
           serverLogs    = logger . configs
           env           = getEnv . configs
@@ -60,13 +59,13 @@ startApp =
           serverC       = serverCrt . configs
           serverMessage env = "Server Running on port: " ++ (show $ serverPort env)
 
-
-
 initializeApp :: IO AppEnv
 initializeApp = do
     dbs           <- initializeDB
     defaultConfig <- Configs.defaultConfig
-    initializeJwt >> return (AppEnv defaultConfig dbs)
+    initializeJwt >> return (AppEnv     case env appEnv of
+        Production -> runTLS (tlsSettingsMemory tlsCrt tlsKey) settings $ logger $ app appEnv
+        _          -> runSettings settings $ logger $ app appEnvdefaultConfig dbs)
 
 app :: AppEnv -> Application
 app appEnv = appCors $ serveWithContext api (authServerContext appConfigs) $ server appEnv
