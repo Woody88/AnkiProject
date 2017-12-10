@@ -13,7 +13,7 @@ import Network.Wai.Middleware.Cors
 import Network.Wai.Handler.Warp
 import Network.Wai.Logger       (withStdoutLogger)
 import Network.Wai.Middleware.RequestLogger (logStdoutDev)
-import Network.Wai.Handler.WarpTLS   (runTLS, tlsSettings)
+import Network.Wai.Handler.WarpTLS   (runTLS, tlsSetting)
 import Servant
 import Servant.API.Experimental.Auth    (AuthProtect)
 import Accounts.User                     (UserLogin(..))
