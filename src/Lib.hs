@@ -1,7 +1,6 @@
 {-# LANGUAGE DataKinds         #-}
 {-# LANGUAGE TypeOperators     #-}
 {-# LANGUAGE OverloadedStrings #-}
-
 module Lib
     ( startApp
     , initializeApp
@@ -63,9 +62,7 @@ initializeApp :: IO AppEnv
 initializeApp = do
     dbs           <- initializeDB
     defaultConfig <- Configs.defaultConfig
-    initializeJwt >> return (AppEnv     case env appEnv of
-        Production -> runTLS (tlsSettingsMemory tlsCrt tlsKey) settings $ logger $ app appEnv
-        _          -> runSettings settings $ logger $ app appEnvdefaultConfig dbs)
+    initializeJwt >> return (AppEnv defaultConfig dbs)
 
 app :: AppEnv -> Application
 app appEnv = appCors $ serveWithContext api (authServerContext appConfigs) $ server appEnv
