@@ -1,6 +1,6 @@
-{-# LANGUAGE DataKinds       #-}
-{-# LANGUAGE TypeOperators   #-}
-
+{-# LANGUAGE DataKinds         #-}
+{-# LANGUAGE TypeOperators     #-}
+{-# LANGUAGE OverloadedStrings #-}
 module Lib
     ( startApp
     , initializeApp
@@ -48,7 +48,7 @@ startApp =
         logger   = serverLogs appEnv
         tlsCrt   = serverC appEnv
         tlsKey   = serverK appEnv
-        settings = setPort port $ setLogger aplogger defaultSettings
+        settings = setPort port $ setLogger aplogger (setServerName "https://ankiapp.herokuapp.com" defaultSettings)
     putStrLn $ serverMessage appEnv
     case env appEnv of
         Production -> runTLS (tlsSettingsMemory tlsCrt tlsKey) settings $ logger $ app appEnv
