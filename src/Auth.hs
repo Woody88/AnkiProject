@@ -87,8 +87,9 @@ getToken tksThread usr = do
   tks <- liftIO $ (T.atomically . T.readTMVar) tksThread
   return $ Map.lookup (KeyId $ pack usr) tks
 
-issueToken :: Jwk -> Tokens -> String -> AppH Token
-issueToken publicKey tks email = do
+issueToken :: Maybe Jwk -> Tokens -> String -> AppH Token
+issueToken Nothing _ _= throwError (err403 { errBody = "Cannot Generate Token!" })
+issueToken (Just publicKey) tks email = do
   Right (Jwt jwt) <- liftIO $ jwkEncode RSA_OAEP A128GCM publicKey (Claims "my claim")
   return $ (Token $ C.unpack jwt)
 

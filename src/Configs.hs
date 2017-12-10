@@ -37,8 +37,6 @@ data Environment =
   | Production
   deriving (Eq, Show, Read)
 
-
-
 defaultConfig :: IO Config
 defaultConfig = do
     (Just privateKey) <- lookupEnv "PrivateKey"

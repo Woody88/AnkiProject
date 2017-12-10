@@ -3,6 +3,8 @@
 
 module Lib
     ( startApp
+    , initializeApp
+    , AppEnv(..)
     ) where
 
 
@@ -41,7 +43,7 @@ webRoot = "web/build/"
 startApp :: IO ()
 startApp =
     withStdoutLogger $ \aplogger -> do
-    appEnv <- initializeApp
+    appEnv <- initializeApp >> initializeApp
     let port     = serverPort appEnv
         logger   = serverLogs appEnv
         settings = setPort port $ setLogger aplogger defaultSettings

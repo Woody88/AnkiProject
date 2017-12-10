@@ -46,7 +46,7 @@ login a t  u = do
 verifyLogin :: Accounts -> Tokens -> UserLogin -> AppH Token
 verifyLogin accDB tokenDB (UserLogin email password) = do
   configs <- ask
-  let (Just publicKey) = pubKey configs
+  let publicKey = pubKey configs
   if (email == "wdelhia" && password == "password")
   then issueToken publicKey tokenDB email
   else throwError (err401 { errBody = "Invalid User" })
