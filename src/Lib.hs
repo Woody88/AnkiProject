@@ -13,6 +13,7 @@ import Network.Wai.Middleware.Cors
 import Network.Wai.Handler.Warp
 import Network.Wai.Logger       (withStdoutLogger)
 import Network.Wai.Middleware.RequestLogger (logStdoutDev)
+import Network.Wai.Handler.WarpTLS   (runTLS, tlsSettings)
 import Servant
 import Servant.API.Experimental.Auth    (AuthProtect)
 import Accounts.User                     (UserLogin(..))
@@ -23,7 +24,7 @@ import Auth (Auth, Token(..), initializeTokens, authServerContext)
 import Accounts (UserServer, LoginEndpoints, userServer)
 import Accounts.User (UserLogin(..))
 import Anki (AnkiServer, AnkiEndpoints, ankiServer )
-import Configs as Configs (defaultConfig, Config(..), initializeJwt)
+import Configs as Configs (defaultConfig, Config(..), initializeJwt, Environment(..))
 
 data AppEnv = AppEnv
     { configs :: Config
@@ -48,10 +49,14 @@ startApp =
         logger   = serverLogs appEnv
         settings = setPort port $ setLogger aplogger defaultSettings
     putStrLn $ serverMessage appEnv
-    runSettings settings $ logger $ app appEnv
+    case env appEnv of
+        Production -> runTLS (tlsSettings "server.crt" "server.key") settings $ logger $ app appEnv
+        _          -> runSettings settings $ logger $ app appEnv
     where serverPort    = port . configs
           serverLogs    = logger . configs
+          env           = getEnv . configs
           serverMessage env = "Server Running on port: " ++ (show $ serverPort env)
+
 
 initializeApp :: IO AppEnv
 initializeApp = do

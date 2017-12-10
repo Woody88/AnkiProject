@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings          #-}
 module Configs
     ( Config(..)
+    , Environment(..)
     , defaultConfig
     , initializeJwt) where
 
