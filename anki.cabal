@@ -23,6 +23,7 @@ library
                      , Anki.AnkiCard
                      , Auth
                      , Configs
+                     , App
   build-depends:       base >= 4.7 && < 5
                      , aeson
                      , binary
@@ -59,6 +60,7 @@ executable anki-exe
                      , anki
                      , aeson
                      , zlib
+                     , wai-cors
   default-language:    Haskell2010
 
 executable elm-type
@@ -70,12 +72,15 @@ executable elm-type
                      , Anki
                      , Anki.AnkiCard
                      , Auth
+                     , App
+                     , Configs
   build-depends:       base
                      , anki
                      , aeson
                      , binary
                      , wai
                      , bytestring
+                     , mtl
                      , containers
                      , vector
                      , cassava
@@ -84,6 +89,9 @@ executable elm-type
                      , servant-server
                      , servant
                      , jose-jwt
+                     , wai-cors
+                     , wai-extra
+                     , monad-logger
                      , elm-export
                      , servant-elm
   default-language:    Haskell2010
