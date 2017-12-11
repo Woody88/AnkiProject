@@ -5,6 +5,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE FlexibleContexts #-}
 
+-- AnkiCard Model
 module Anki.AnkiCard (initializeAnkiCards, CardID, AnkiCards, AnkiCard(..), ankiCards, createCard, getCard, updateCard) where
 
 import Data.Csv                            as Csv
