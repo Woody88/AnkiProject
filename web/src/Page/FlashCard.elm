@@ -148,7 +148,7 @@ initNewCard =
 newCardForm : AnkiCard -> Msg -> String -> Html Msg
 newCardForm card submiter result =
     Html.form [ class [ Css.FormControl ] ]
-        [ h3 [] [ text result ]
+        [ h3 [  style [ ("color", "green") ]] [ text result ]
         , Form.input [ placeholder "English Anki", onInput SetContentEn, value card.contentEn ]
         , Form.input [ placeholder "Kanji Anki", onInput SetContentKanji, value card.contentJpKanji ]
         , Form.input [ placeholder "Hiragana Anki", onInput SetContentHirag, value card.contentJp ]
