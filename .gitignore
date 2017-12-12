@@ -20,3 +20,4 @@ cabal.project.local
 .HTF/
 server.crt
 server.key
+export_env_var.sh

@@ -48,6 +48,13 @@ type alias Model =
     , pageState : PageState
     }
 
+type Msg
+    = SetRoute (Maybe Route)
+    | LoginMsg Login.Msg
+    | HomeMsg Home.Msg
+    | FlashCardMsg FlashCard.Msg
+    | FlashCardLoaded (Result PageLoadError FlashCard.Model)
+
 initialPage : Page
 initialPage =
     Login Login.initialModel
@@ -127,12 +134,7 @@ subscriptions model =
     Sub.none
 
 
-type Msg
-    = SetRoute (Maybe Route)
-    | LoginMsg Login.Msg
-    | HomeMsg Home.Msg
-    | FlashCardMsg FlashCard.Msg
-    | FlashCardLoaded (Result PageLoadError FlashCard.Model)
+
 
 
 pageErrored : Model -> ActivePage -> String -> ( Model, Cmd msg )
@@ -153,30 +155,40 @@ setRoute maybeRoute model =
 
         errored =
             pageErrored model
+
+        maybeToken = model.session.token
     in
-        case maybeRoute of
+        case maybeToken of
             Nothing ->
-                { model | pageState = Loaded NotFound } ! []
-
-            Just Route.Home ->
-                { model | pageState = Loaded (Home Home.initialModel) }
-                    ! []
-
-            -- |> auth
-            Just Route.Login ->
                 { model | pageState = Loaded (Login Login.initialModel) } ! []
+            _ -> setRoute_ maybeRoute model transition errored
 
-            Just Route.NewFlashCard ->
-                { model | pageState = Loaded (FlashCard FlashCard.initNewCard) } ! []
+setRoute_ maybeRoute model transition errored =
+    case maybeRoute of
+        Nothing ->
+            { model | pageState = Loaded NotFound } ! []
 
-            Just (Route.EditFlashCard id_) ->
-                transition FlashCardLoaded (FlashCard.initEditCard model.session id_)
+        Just Route.Home ->
+            { model | pageState = Loaded (Home Home.initialModel) }
+                ! []
 
-            Just Route.FlashCardList ->
-                transition FlashCardLoaded (FlashCard.init model.session True)
+        -- |> auth
+        Just Route.Login ->
+            { model | pageState = Loaded (Home Home.initialModel) }
+                ! []
+            --{ model | pageState = Loaded (Login Login.initialModel) } ! []
 
-            Just Route.FlashCard ->
-                transition FlashCardLoaded (FlashCard.init model.session False)
+        Just Route.NewFlashCard ->
+            { model | pageState = Loaded (FlashCard FlashCard.initNewCard) } ! []
+
+        Just (Route.EditFlashCard id_) ->
+            transition FlashCardLoaded (FlashCard.initEditCard model.session id_)
+
+        Just Route.FlashCardList ->
+            transition FlashCardLoaded (FlashCard.init model.session True)
+
+        Just Route.FlashCard ->
+            transition FlashCardLoaded (FlashCard.init model.session False)
 
 
 auth : ( Model, Cmd Msg ) -> ( Model, Cmd Msg )

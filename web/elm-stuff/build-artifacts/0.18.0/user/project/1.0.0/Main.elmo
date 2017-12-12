@@ -65,21 +65,8 @@ var _user$project$Main$pageErrored = F3(
 var _user$project$Main$FlashCardLoaded = function (a) {
 	return {ctor: 'FlashCardLoaded', _0: a};
 };
-var _user$project$Main$setRoute = F2(
-	function (maybeRoute, model) {
-		var errored = _user$project$Main$pageErrored(model);
-		var transition = F2(
-			function (toMsg, task) {
-				return A2(
-					_user$project$Main_ops['=>'],
-					_elm_lang$core$Native_Utils.update(
-						model,
-						{
-							pageState: _user$project$Main$TransitioningFrom(
-								_user$project$Main$getPage(model.pageState))
-						}),
-					A2(_elm_lang$core$Task$attempt, toMsg, task));
-			});
+var _user$project$Main$setRoute_ = F4(
+	function (maybeRoute, model, transition, errored) {
 		var _p2 = maybeRoute;
 		if (_p2.ctor === 'Nothing') {
 			return A2(
@@ -109,7 +96,7 @@ var _user$project$Main$setRoute = F2(
 							model,
 							{
 								pageState: _user$project$Main$Loaded(
-									_user$project$Main$Login(_user$project$Page_Login$initialModel))
+									_user$project$Main$Home(_user$project$Page_Home$initialModel))
 							}),
 						{ctor: '[]'});
 				case 'NewFlashCard':
@@ -140,6 +127,37 @@ var _user$project$Main$setRoute = F2(
 			}
 		}
 	});
+var _user$project$Main$setRoute = F2(
+	function (maybeRoute, model) {
+		var maybeToken = model.session.token;
+		var errored = _user$project$Main$pageErrored(model);
+		var transition = F2(
+			function (toMsg, task) {
+				return A2(
+					_user$project$Main_ops['=>'],
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{
+							pageState: _user$project$Main$TransitioningFrom(
+								_user$project$Main$getPage(model.pageState))
+						}),
+					A2(_elm_lang$core$Task$attempt, toMsg, task));
+			});
+		var _p3 = maybeToken;
+		if (_p3.ctor === 'Nothing') {
+			return A2(
+				_elm_lang$core$Platform_Cmd_ops['!'],
+				_elm_lang$core$Native_Utils.update(
+					model,
+					{
+						pageState: _user$project$Main$Loaded(
+							_user$project$Main$Login(_user$project$Page_Login$initialModel))
+					}),
+				{ctor: '[]'});
+		} else {
+			return A4(_user$project$Main$setRoute_, maybeRoute, model, transition, errored);
+		}
+	});
 var _user$project$Main$init = F2(
 	function (val, location) {
 		var d = A2(_elm_lang$core$Debug$log, 'check: ', location);
@@ -154,17 +172,17 @@ var _user$project$Main$init = F2(
 				}
 			});
 	});
-var _user$project$Main$auth = function (_p3) {
-	var _p4 = _p3;
-	var _p6 = _p4._0;
-	var _p5 = _p6.session.user;
-	if (_p5.ctor === 'Nothing') {
+var _user$project$Main$auth = function (_p4) {
+	var _p5 = _p4;
+	var _p7 = _p5._0;
+	var _p6 = _p7.session.user;
+	if (_p6.ctor === 'Nothing') {
 		return A2(
 			_user$project$Main$setRoute,
 			_elm_lang$core$Maybe$Just(_user$project$Route$Login),
-			_p6);
+			_p7);
 	} else {
-		return {ctor: '_Tuple2', _0: _p6, _1: _p4._1};
+		return {ctor: '_Tuple2', _0: _p7, _1: _p5._1};
 	}
 };
 var _user$project$Main$FlashCardMsg = function (a) {
@@ -178,8 +196,8 @@ var _user$project$Main$LoginMsg = function (a) {
 };
 var _user$project$Main$viewPage = F3(
 	function (session, isLoading, page) {
-		var _p7 = page;
-		switch (_p7.ctor) {
+		var _p8 = page;
+		switch (_p8.ctor) {
 			case 'NotFound':
 				return _user$project$Page_NotFound$view(session);
 			case 'Blank':
@@ -188,37 +206,37 @@ var _user$project$Main$viewPage = F3(
 				return A2(
 					_elm_lang$html$Html$map,
 					_user$project$Main$LoginMsg,
-					A2(_user$project$Page_Login$view, session, _p7._0));
+					A2(_user$project$Page_Login$view, session, _p8._0));
 			case 'Home':
 				return A2(
 					_elm_lang$html$Html$map,
 					_user$project$Main$HomeMsg,
-					A2(_user$project$Page_Home$view, session, _p7._0));
+					A2(_user$project$Page_Home$view, session, _p8._0));
 			case 'FlashCard':
 				return A2(
 					_elm_lang$html$Html$map,
 					_user$project$Main$FlashCardMsg,
-					A2(_user$project$Page_FlashCard$view, session, _p7._0));
+					A2(_user$project$Page_FlashCard$view, session, _p8._0));
 			default:
-				return A2(_user$project$Page_Errored$view, session, _p7._0);
+				return A2(_user$project$Page_Errored$view, session, _p8._0);
 		}
 	});
 var _user$project$Main$view = function (model) {
 	var d = A2(_elm_lang$core$Debug$log, 'page state: ', model.pageState);
-	var _p8 = model.pageState;
-	if (_p8.ctor === 'Loaded') {
-		return A3(_user$project$Main$viewPage, model.session, false, _p8._0);
+	var _p9 = model.pageState;
+	if (_p9.ctor === 'Loaded') {
+		return A3(_user$project$Main$viewPage, model.session, false, _p9._0);
 	} else {
-		return A3(_user$project$Main$viewPage, model.session, true, _p8._0);
+		return A3(_user$project$Main$viewPage, model.session, true, _p9._0);
 	}
 };
 var _user$project$Main$updatePage = F3(
 	function (page, msg, model) {
 		var toPage = F5(
 			function (toModel, toMsg, subUpdate, subMsg, subModel) {
-				var _p9 = A2(subUpdate, subMsg, subModel);
-				var newModel = _p9._0;
-				var newCmd = _p9._1;
+				var _p10 = A2(subUpdate, subMsg, subModel);
+				var newModel = _p10._0;
+				var newCmd = _p10._1;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -232,24 +250,24 @@ var _user$project$Main$updatePage = F3(
 			});
 		var session = model.session;
 		var d = _elm_lang$core$Debug$log('in update page');
-		var _p10 = {ctor: '_Tuple2', _0: msg, _1: page};
-		_v6_7:
+		var _p11 = {ctor: '_Tuple2', _0: msg, _1: page};
+		_v7_7:
 		do {
-			_v6_6:
+			_v7_6:
 			do {
-				switch (_p10._0.ctor) {
+				switch (_p11._0.ctor) {
 					case 'SetRoute':
 						var d = _elm_lang$core$Debug$log('Setting Route');
-						return A2(_user$project$Main$setRoute, _p10._0._0, model);
+						return A2(_user$project$Main$setRoute, _p11._0._0, model);
 					case 'FlashCardLoaded':
-						if (_p10._0._0.ctor === 'Ok') {
+						if (_p11._0._0.ctor === 'Ok') {
 							return A2(
 								_user$project$Main_ops['=>'],
 								_elm_lang$core$Native_Utils.update(
 									model,
 									{
 										pageState: _user$project$Main$Loaded(
-											_user$project$Main$FlashCard(_p10._0._0._0))
+											_user$project$Main$FlashCard(_p11._0._0._0))
 									}),
 								_elm_lang$core$Platform_Cmd$none);
 						} else {
@@ -259,50 +277,50 @@ var _user$project$Main$updatePage = F3(
 									model,
 									{
 										pageState: _user$project$Main$Loaded(
-											_user$project$Main$Errored(_p10._0._0._0))
+											_user$project$Main$Errored(_p11._0._0._0))
 									}),
 								_elm_lang$core$Platform_Cmd$none);
 						}
 					case 'HomeMsg':
-						switch (_p10._1.ctor) {
+						switch (_p11._1.ctor) {
 							case 'Home':
 								return A5(
 									toPage,
 									_user$project$Main$Home,
 									_user$project$Main$HomeMsg,
 									_user$project$Page_Home$update(session),
-									_p10._0._0,
-									_p10._1._0);
+									_p11._0._0,
+									_p11._1._0);
 							case 'NotFound':
-								break _v6_6;
+								break _v7_6;
 							default:
-								break _v6_7;
+								break _v7_7;
 						}
 					case 'FlashCardMsg':
-						switch (_p10._1.ctor) {
+						switch (_p11._1.ctor) {
 							case 'FlashCard':
 								return A5(
 									toPage,
 									_user$project$Main$FlashCard,
 									_user$project$Main$FlashCardMsg,
 									_user$project$Page_FlashCard$update(session),
-									_p10._0._0,
-									_p10._1._0);
+									_p11._0._0,
+									_p11._1._0);
 							case 'NotFound':
-								break _v6_6;
+								break _v7_6;
 							default:
-								break _v6_7;
+								break _v7_7;
 						}
 					default:
-						switch (_p10._1.ctor) {
+						switch (_p11._1.ctor) {
 							case 'Login':
-								var _p11 = A2(_user$project$Page_Login$update, _p10._0._0, _p10._1._0);
-								var pageModel = _p11._0._0;
-								var cmd = _p11._0._1;
-								var msgFromPage = _p11._1;
+								var _p12 = A2(_user$project$Page_Login$update, _p11._0._0, _p11._1._0);
+								var pageModel = _p12._0._0;
+								var cmd = _p12._0._1;
+								var msgFromPage = _p12._1;
 								var newModel = function () {
-									var _p12 = msgFromPage;
-									if (_p12.ctor === 'NoOp') {
+									var _p13 = msgFromPage;
+									if (_p13.ctor === 'NoOp') {
 										return model;
 									} else {
 										var session = model.session;
@@ -311,7 +329,7 @@ var _user$project$Main$updatePage = F3(
 											{
 												session: {
 													user: _elm_lang$core$Maybe$Nothing,
-													token: _elm_lang$core$Maybe$Just(_p12._0)
+													token: _elm_lang$core$Maybe$Just(_p13._0)
 												}
 											});
 									}
@@ -326,9 +344,9 @@ var _user$project$Main$updatePage = F3(
 										}),
 									A2(_elm_lang$core$Platform_Cmd$map, _user$project$Main$LoginMsg, cmd));
 							case 'NotFound':
-								break _v6_6;
+								break _v7_6;
 							default:
-								break _v6_7;
+								break _v7_7;
 						}
 				}
 			} while(false);
@@ -355,8 +373,8 @@ var _user$project$Main$SetRoute = function (a) {
 };
 var _user$project$Main$main = A2(
 	_elm_lang$navigation$Navigation$programWithFlags,
-	function (_p13) {
+	function (_p14) {
 		return _user$project$Main$SetRoute(
-			_user$project$Route$fromLocation(_p13));
+			_user$project$Route$fromLocation(_p14));
 	},
 	{init: _user$project$Main$init, view: _user$project$Main$view, update: _user$project$Main$update, subscriptions: _user$project$Main$subscriptions})(_elm_lang$core$Json_Decode$value);
