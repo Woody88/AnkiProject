@@ -21,7 +21,8 @@ var _user$project$Page_FlashCard$initialModel = {
 	successPostPost: _elm_lang$core$Maybe$Nothing,
 	successEdit: _elm_lang$core$Maybe$Nothing,
 	listView: false,
-	editView: false
+	editView: false,
+	added_edited: ''
 };
 var _user$project$Page_FlashCard$init = F2(
 	function (session, listview) {
@@ -121,9 +122,9 @@ var _user$project$Page_FlashCard$listView = F2(
 			},
 			_user$project$Page_FlashCard$cards(model.cards));
 	});
-var _user$project$Page_FlashCard$Model = F6(
-	function (a, b, c, d, e, f) {
-		return {cards: a, newCard: b, successPostPost: c, successEdit: d, listView: e, editView: f};
+var _user$project$Page_FlashCard$Model = F7(
+	function (a, b, c, d, e, f, g) {
+		return {cards: a, newCard: b, successPostPost: c, successEdit: d, listView: e, editView: f, added_edited: g};
 	});
 var _user$project$Page_FlashCard$SetSuccessEdit = function (a) {
 	return {ctor: 'SetSuccessEdit', _0: a};
@@ -240,7 +241,9 @@ var _user$project$Page_FlashCard$update = F3(
 						A2(_elm_lang$core$Maybe$withDefault, _user$project$Page_FlashCard$emptyCard, model.newCard)));
 				return A2(
 					_elm_lang$core$Platform_Cmd_ops['!'],
-					model,
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{added_edited: 'Anki successfully added!'}),
 					{
 						ctor: '::',
 						_0: p,
@@ -308,8 +311,8 @@ var _user$project$Page_FlashCard$SetContentKanji = function (a) {
 var _user$project$Page_FlashCard$SetContentEn = function (a) {
 	return {ctor: 'SetContentEn', _0: a};
 };
-var _user$project$Page_FlashCard$newCardForm = F2(
-	function (card, submiter) {
+var _user$project$Page_FlashCard$newCardForm = F3(
+	function (card, submiter, result) {
 		return A2(
 			_elm_lang$html$Html$form,
 			{
@@ -324,32 +327,26 @@ var _user$project$Page_FlashCard$newCardForm = F2(
 			},
 			{
 				ctor: '::',
-				_0: _user$project$Views_Form$input(
+				_0: A2(
+					_elm_lang$html$Html$h3,
+					{ctor: '[]'},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$placeholder('English Anki'),
-						_1: {
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContentEn),
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$value(card.contentEn),
-								_1: {ctor: '[]'}
-							}
-						}
+						_0: _elm_lang$html$Html$text(result),
+						_1: {ctor: '[]'}
 					}),
 				_1: {
 					ctor: '::',
 					_0: _user$project$Views_Form$input(
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$placeholder('Kanji Anki'),
+							_0: _elm_lang$html$Html_Attributes$placeholder('English Anki'),
 							_1: {
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContentKanji),
+								_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContentEn),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$value(card.contentJpKanji),
+									_0: _elm_lang$html$Html_Attributes$value(card.contentEn),
 									_1: {ctor: '[]'}
 								}
 							}
@@ -359,29 +356,29 @@ var _user$project$Page_FlashCard$newCardForm = F2(
 						_0: _user$project$Views_Form$input(
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Attributes$placeholder('Hiragana Anki'),
+								_0: _elm_lang$html$Html_Attributes$placeholder('Kanji Anki'),
 								_1: {
 									ctor: '::',
-									_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContentHirag),
+									_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContentKanji),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$value(card.contentJp),
+										_0: _elm_lang$html$Html_Attributes$value(card.contentJpKanji),
 										_1: {ctor: '[]'}
 									}
 								}
 							}),
 						_1: {
 							ctor: '::',
-							_0: _user$project$Views_Form$textarea(
+							_0: _user$project$Views_Form$input(
 								{
 									ctor: '::',
-									_0: _elm_lang$html$Html_Attributes$placeholder('Anki English Context'),
+									_0: _elm_lang$html$Html_Attributes$placeholder('Hiragana Anki'),
 									_1: {
 										ctor: '::',
-										_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContextEn),
+										_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContentHirag),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$value(card.contextEn),
+											_0: _elm_lang$html$Html_Attributes$value(card.contentJp),
 											_1: {ctor: '[]'}
 										}
 									}
@@ -391,44 +388,65 @@ var _user$project$Page_FlashCard$newCardForm = F2(
 								_0: _user$project$Views_Form$textarea(
 									{
 										ctor: '::',
-										_0: _elm_lang$html$Html_Attributes$placeholder('Anki Japanese Context'),
+										_0: _elm_lang$html$Html_Attributes$placeholder('Anki English Context'),
 										_1: {
 											ctor: '::',
-											_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContextJp),
+											_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContextEn),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Attributes$value(card.contextJP),
+												_0: _elm_lang$html$Html_Attributes$value(card.contextEn),
 												_1: {ctor: '[]'}
 											}
 										}
 									}),
 								_1: {
 									ctor: '::',
-									_0: _user$project$Views_Form$input(
+									_0: _user$project$Views_Form$textarea(
 										{
 											ctor: '::',
-											_0: _elm_lang$html$Html_Attributes$placeholder('Anki Property'),
+											_0: _elm_lang$html$Html_Attributes$placeholder('Anki Japanese Context'),
 											_1: {
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetProperty),
+												_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetContextJp),
 												_1: {
 													ctor: '::',
-													_0: _elm_lang$html$Html_Attributes$value(card.property),
+													_0: _elm_lang$html$Html_Attributes$value(card.contextJP),
 													_1: {ctor: '[]'}
 												}
 											}
 										}),
 									_1: {
 										ctor: '::',
-										_0: A2(
-											_user$project$Views_Form$submit,
+										_0: _user$project$Views_Form$input(
 											{
 												ctor: '::',
-												_0: _elm_lang$html$Html_Events$onClick(submiter),
-												_1: {ctor: '[]'}
-											},
-											'Add Anki'),
-										_1: {ctor: '[]'}
+												_0: _elm_lang$html$Html_Attributes$placeholder('Anki Property'),
+												_1: {
+													ctor: '::',
+													_0: _elm_lang$html$Html_Events$onInput(_user$project$Page_FlashCard$SetProperty),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$value(card.property),
+														_1: {ctor: '[]'}
+													}
+												}
+											}),
+										_1: {
+											ctor: '::',
+											_0: A2(
+												_user$project$Views_Form$submit,
+												{
+													ctor: '::',
+													_0: _elm_lang$html$Html_Events$onClick(submiter),
+													_1: {
+														ctor: '::',
+														_0: _elm_lang$html$Html_Attributes$disabled(true),
+														_1: {ctor: '[]'}
+													}
+												},
+												'Add Anki'),
+											_1: {ctor: '[]'}
+										}
 									}
 								}
 							}
@@ -532,10 +550,11 @@ var _user$project$Page_FlashCard$view = F2(
 						}
 					});
 			} else {
-				return A2(
+				return A3(
 					_user$project$Page_FlashCard$newCardForm,
 					_p7._0,
-					model.editView ? _user$project$Page_FlashCard$UpdateAnki : _user$project$Page_FlashCard$SubmitNewAnki);
+					model.editView ? _user$project$Page_FlashCard$UpdateAnki : _user$project$Page_FlashCard$SubmitNewAnki,
+					model.added_edited);
 			}
 		}
 	});

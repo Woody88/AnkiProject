@@ -30,6 +30,7 @@ type alias Model =
     , successEdit : Maybe (Result Http.Error (Maybe AnkiCard))
     , listView : Bool
     , editView : Bool
+    , added_edited : String
     }
 
 
@@ -55,6 +56,7 @@ initialModel =
     , successEdit = Nothing
     , listView = False
     , editView = False
+    , added_edited = ""
     }
 
 
@@ -143,16 +145,17 @@ initNewCard =
         { initialModel | newCard = Just card }
 
 
-newCardForm : AnkiCard -> Msg -> Html Msg
-newCardForm card submiter =
+newCardForm : AnkiCard -> Msg -> String -> Html Msg
+newCardForm card submiter result =
     Html.form [ class [ Css.FormControl ] ]
-        [ Form.input [ placeholder "English Anki", onInput SetContentEn, value card.contentEn ]
+        [ h3 [] [ text result ]
+        , Form.input [ placeholder "English Anki", onInput SetContentEn, value card.contentEn ]
         , Form.input [ placeholder "Kanji Anki", onInput SetContentKanji, value card.contentJpKanji ]
         , Form.input [ placeholder "Hiragana Anki", onInput SetContentHirag, value card.contentJp ]
         , Form.textarea [ placeholder "Anki English Context", onInput SetContextEn, value card.contextEn ]
         , Form.textarea [ placeholder "Anki Japanese Context", onInput SetContextJp, value card.contextJP ]
         , Form.input [ placeholder "Anki Property", onInput SetProperty, value card.property ]
-        , Form.submit [ onClick submiter ] "Add Anki"
+        , Form.submit [ onClick submiter] "Add Anki"
         ]
 
 
@@ -201,7 +204,8 @@ view session model =
                             UpdateAnki
                          else
                             SubmitNewAnki
-                        )
+                        ) model.added_edited
+
 
 
 update : Session -> Msg -> Model -> ( Model, Cmd Msg )
@@ -286,7 +290,7 @@ update session msg model =
                         postAnkis token (withDefault emptyCard model.newCard)
                             |> Http.send SetSuccessPost
                 in
-                    model ! [ p ]
+                    { model | added_edited = "Anki successfully added!"} ! [ p]
 
             UpdateAnki ->
                 case model.newCard of
@@ -296,7 +300,7 @@ update session msg model =
                                 putAnkiByCardId token c.cardId c
                                     |> Http.send SetSuccessEdit
                         in
-                            model ! [ p ]
+                            model ! [ p]
 
                     Nothing ->
                         model ! []
